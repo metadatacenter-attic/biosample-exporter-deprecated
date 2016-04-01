@@ -1,6 +1,7 @@
 package org.metadatacenter.biosample.exporter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import generated.TypeBioSample;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,5 +21,7 @@ public class CEDAR2BioSample
 
     System.out.println("Address: " + address1);
     System.out.println("Address: " + address2);
+
+    TypeBioSample bioSample;
   }
 }

@@ -20,6 +20,7 @@
     <slf4j.version>1.7.14</slf4j.version>
     
     <maven.jsonschema2pojo.plugin.version>0.4.22</maven.jsonschema2pojo.plugin.version>
+    <maven.jaxb2.plugin.version>0.13.1</maven.jaxb2.plugin.version>
     <maven.build-helper.plugin.version>1.4</maven.build-helper.plugin.version>
     <maven.compiler.plugin.version>3.5</maven.compiler.plugin.version>
     <maven.dependency.plugin.version>2.10</maven.dependency.plugin.version>
@@ -120,6 +121,23 @@
             </goals>
           </execution>
         </executions>
+      </plugin>
+
+      
+      <plugin>
+        <groupId>org.jvnet.jaxb2.maven2</groupId>
+        <artifactId>maven-jaxb2-plugin</artifactId>
+        <version>${maven.jaxb2.plugin.version}</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>generate</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <schemaDirectory>${basedir}/src/main/resources/xsd</schemaDirectory>
+        </configuration>
       </plugin>
 
       <!-- Tell an IDE to include generated code in its compile phase.  jsonschema2pojo uses ${basedir}/target/java-gen -->
