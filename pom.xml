@@ -140,7 +140,7 @@
         </configuration>
       </plugin>
 
-      <!-- Tell an IDE to include generated code in its compile phase.  jsonschema2pojo uses ${basedir}/target/java-gen -->
+      <!-- Tell an IDE to include generated code in its compile phase. jsonschema2pojo uses ${basedir}/target/java-gen -->
       <plugin> 
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>build-helper-maven-plugin</artifactId>
