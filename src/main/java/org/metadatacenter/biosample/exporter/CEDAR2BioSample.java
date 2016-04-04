@@ -5,6 +5,7 @@ import generated.ObjectFactory;
 import generated.TypeSubmission;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
@@ -28,10 +29,17 @@ public class CEDAR2BioSample
     System.out.println("Address: " + address2);
 
     TypeSubmission submission = objectFactory.createTypeSubmission();
+    JAXBElement<TypeSubmission> submissionRoot = objectFactory.createSubmission(submission);
 
     JAXBContext ctx = JAXBContext.newInstance(TypeSubmission.class);
     Marshaller marshaller = ctx.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    marshaller.marshal(submission, System.out);
+    marshaller.marshal(submissionRoot, System.out);
   }
+
+//  @XmlElementDecl(namespace = "", name = "Submission")
+//  public JAXBElement<TypeSubmission> createSubmission(TypeSubmission value) {
+//    return new JAXBElement<TypeSubmission>(_Submission_QNAME, TypeSubmission.class, null, value);
+//  }
+
 }
