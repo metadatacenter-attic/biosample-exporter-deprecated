@@ -2,7 +2,7 @@ package org.metadatacenter.biosample.exporter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import generated.ObjectFactory;
-import generated.TypeBioSample;
+import generated.TypeSubmission;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -27,11 +27,11 @@ public class CEDAR2BioSample
     System.out.println("Address: " + address1);
     System.out.println("Address: " + address2);
 
-    TypeBioSample bioSample = objectFactory.createTypeBioSample();
+    TypeSubmission submission = objectFactory.createTypeSubmission();
 
-    JAXBContext ctx = JAXBContext.newInstance(TypeBioSample.class);
+    JAXBContext ctx = JAXBContext.newInstance(TypeSubmission.class);
     Marshaller marshaller = ctx.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    marshaller.marshal(bioSample, System.out);
+    marshaller.marshal(submission, System.out);
   }
 }
