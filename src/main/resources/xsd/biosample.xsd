@@ -91,18 +91,22 @@
         <xs:documentation> Identifier placed on submitted object by submitter. This is used
                     to tie the submitted object with assigned accession. </xs:documentation>
       </xs:annotation>
+
       <xs:element maxOccurs="1" minOccurs="0" name="PrimaryId" type="com:typePrimaryId">
         <xs:annotation>
           <xs:documentation>Used for updates: BioSample accession of the record being updated.</xs:documentation>
         </xs:annotation>
       </xs:element>
+
       <xs:element maxOccurs="unbounded" minOccurs="0" name="SPUID">
         <xs:annotation>
           <xs:documentation>An identifier from external database qualified by a namespace.</xs:documentation>
         </xs:annotation>
         <xs:complexType>
           <xs:complexContent>
+
             <xs:extension base="com:typeSPUID">
+
               <xs:attribute name="label">
                 <xs:annotation>
                   <xs:documentation>Add this attribute to replace spuid_namespace value by 'Sample name'.</xs:documentation>
@@ -113,6 +117,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:attribute>
+
               <xs:attribute name="display">
                 <xs:annotation>
                   <xs:documentation>Set to 'no' to not display SPUID on public web pages.</xs:documentation>
@@ -125,9 +130,11 @@
                     </xs:simpleType>
                 </xs:attribute>
             </xs:extension>
+
           </xs:complexContent>
         </xs:complexType>
       </xs:element>
+      
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
