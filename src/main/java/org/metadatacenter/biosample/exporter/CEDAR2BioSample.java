@@ -2,19 +2,26 @@ package org.metadatacenter.biosample.exporter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import generated.ObjectFactory;
+import generated.TypeContactInfo;
+import generated.TypeName;
+import generated.TypeOrganization;
 import generated.TypeSubmission;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.IOException;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class CEDAR2BioSample
 {
-  public static void main(String[] argc) throws IOException, JAXBException
+  public static void main(String[] argc) throws IOException, JAXBException, DatatypeConfigurationException
   {
     ObjectFactory objectFactory = new ObjectFactory();
     ObjectMapper mapper = new ObjectMapper();
@@ -82,12 +89,46 @@ public class CEDAR2BioSample
       System.out.println("Attribute Value: " + bioSampleAttribute.getAttributeValue().getValue());
     }
 
+    // XML
+
     TypeSubmission submission = objectFactory.createTypeSubmission();
+    TypeSubmission.Description description = objectFactory.createTypeSubmissionDescription();
+    TypeSubmission.Description.Hold hold = objectFactory.createTypeSubmissionDescriptionHold();
+    TypeOrganization organization = objectFactory.createTypeOrganization();
+    TypeOrganization.Name organizationName = objectFactory.createTypeOrganizationName();
+    TypeContactInfo contactInfo = objectFactory.createTypeContactInfo();
+    TypeName name = objectFactory.createTypeName();
+
+    description.setComment("a comment");
+
+    hold.setReleaseDate(createXMLGregorianCalendar("1999-01-01"));
+    description.setHold(hold);
+
+    organizationName.setValue("org name");
+    organization.setName(organizationName);
+
+    contactInfo.setEmail("email");
+    name.setFirst("First");
+    name.setMiddle("Middle");
+    name.setLast("Last");
+    contactInfo.setName(name);
+    organization.getContact().add(contactInfo);
+    description.getOrganization().add(organization);
+
     JAXBElement<TypeSubmission> submissionRoot = objectFactory.createSubmission(submission);
 
     JAXBContext ctx = JAXBContext.newInstance(TypeSubmission.class);
     Marshaller marshaller = ctx.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     marshaller.marshal(submissionRoot, System.out);
+  }
+
+
+  private static XMLGregorianCalendar createXMLGregorianCalendar(String date) throws DatatypeConfigurationException
+  {
+    DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
+    GregorianCalendar gc = new GregorianCalendar();
+
+    return datatypeFactory.newXMLGregorianCalendar(gc);
   }
 }
