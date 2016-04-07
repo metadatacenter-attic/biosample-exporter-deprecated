@@ -11,6 +11,8 @@
 .idea
 *.iml
 
+.DS_Store
+
 # Exclude build directory
 target/*
 .

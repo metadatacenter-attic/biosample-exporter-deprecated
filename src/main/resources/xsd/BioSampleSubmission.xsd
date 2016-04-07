@@ -138,7 +138,7 @@
 
                     </xs:complexContent>
                   </xs:complexType>
-                </xs:element>
+                </xs:element> <!-- Closes Data -->
 
               </xs:sequence>
               <xs:attributeGroup ref="attributesFileGroup"/>
