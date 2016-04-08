@@ -1,5 +1,4 @@
 {
-  "@id": "https://repo.metadatacenter.net/template-elements/dc20de28-e998-418f-936a-3cbb995adaa8",
   "@type": "https://schema.metadatacenter.org/core/TemplateElement",
   "@context": {
     "pav": "http://purl.org/pav/",
