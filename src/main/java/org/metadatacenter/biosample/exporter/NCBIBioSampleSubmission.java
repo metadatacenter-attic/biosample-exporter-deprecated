@@ -27,9 +27,19 @@ public class NCBIBioSampleSubmission
   private String bioSampleDescriptorTitle = "";
   private String bioSampleOrganismName = "";
   private final String bioSampleBioProjectPrimaryIDDatabase = "BioProject";
-  private final String bioSampleBioProjectPrimaryID = "";
-  private final String bioSamplePackageID = "";
+  private String bioSampleBioProjectPrimaryID = "";
+  private String bioSamplePackageID = "";
   private final List<Attribute> attributes = new ArrayList<>();
+
+  public void setBioSampleBioProjectPrimaryID(String bioSampleBioProjectPrimaryID)
+  {
+    this.bioSampleBioProjectPrimaryID = bioSampleBioProjectPrimaryID;
+  }
+
+  public void setBioSamplePackageID(String bioSamplePackageID)
+  {
+    this.bioSamplePackageID = bioSamplePackageID;
+  }
 
   public void addAttribute(String attributeName, String attributeValue)
   {
