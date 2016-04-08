@@ -31,21 +31,24 @@ public class CEDARTemplate2BioSampleSubmission
 {
   public static void main(String[] argc) throws IOException, JAXBException, DatatypeConfigurationException
   {
-    generated.ObjectFactory objectFactory = new generated.ObjectFactory();
-    common.sp.ObjectFactory spCommonObjectFactory = new common.sp.ObjectFactory();
+    ObjectMapper mapper = new ObjectMapper();
 
+    File submissionInstanceJSONFile = new File(CEDARTemplate2BioSampleSubmission.class.getClassLoader()
+      .getResource("./json/NCBIBioSampleSubmissionInstance1.json").getFile());
+
+    NCBIBioSampleSubmissionTemplate bioSampleSubmissionInstance = mapper
+      .readValue(submissionInstanceJSONFile, NCBIBioSampleSubmissionTemplate.class);
+
+    NCBIBioSampleSubmission submission = extractSubmissionFromInstance(bioSampleSubmissionInstance);
+
+    generateNCBIBiosampleSubmissionXML(submission);
+  }
+
+  private static NCBIBioSampleSubmission extractSubmissionFromInstance(NCBIBioSampleSubmissionTemplate bioSampleSubmissionInstance)
+  {
     NCBIBioSampleSubmission submission = new NCBIBioSampleSubmission();
 
-    ObjectMapper mapper = new ObjectMapper();
-    File bioSampleJSONFile = new File(
-      CEDARTemplate2BioSampleSubmission.class.getClassLoader().getResource("./json/BioSample1.json").getFile());
-    File ncbiSubmissionDescriptionJSONFile = new File(
-      CEDARTemplate2BioSampleSubmission.class.getClassLoader().getResource("./json/NCBISubmissionDescription1.json")
-        .getFile());
-
-    BioSample bioSample = mapper.readValue(bioSampleJSONFile, BioSample.class);
-    NCBISubmissionDescription ncbiSubmissionDescription = mapper
-      .readValue(bioSampleJSONFile, NCBISubmissionDescription.class);
+    NCBISubmissionDescription ncbiSubmissionDescription = bioSampleSubmissionInstance.getNCBISubmissionDescription();
 
     System.out.println("Comment: " + ncbiSubmissionDescription.getComment().getValue());
     System.out.println("Release Date: " + ncbiSubmissionDescription.getReleaseDate().getValue());
@@ -61,24 +64,26 @@ public class CEDARTemplate2BioSampleSubmission
     System.out.println("Middle Initial: " + ncbiName.getMiddleInitial().getValue());
     System.out.println("Last Name: " + ncbiName.getLastName().getValue());
 
+    BioSample_ bioSample = bioSampleSubmissionInstance.getBioSample();
+
     System.out.println("BioProjectID: " + bioSample.getBioProjectID().getValue());
     System.out.println("Package: " + bioSample.getPackage().getValue());
 
-    BioSampleSampleID bioSampleSampleID = bioSample.getBioSampleSampleID();
+    BioSampleSampleID_ bioSampleSampleID = bioSample.getBioSampleSampleID();
     System.out.println("Label: " + bioSampleSampleID.getLabel().getValue());
     System.out.println("Display: " + bioSampleSampleID.getDisplay().getValue());
 
-    NCBISPUID ncbiSPUID = bioSampleSampleID.getNCBISPUID();
+    NCBISPUID_ ncbiSPUID = bioSampleSampleID.getNCBISPUID();
     System.out.println("SubmitterID: " + ncbiSPUID.getSubmitterID().getValue());
     System.out.println("Namespace: " + ncbiSPUID.getNamespace().getValue());
     System.out.println("Value: " + ncbiSPUID.getValue().getValue());
 
-    BioSampleDescriptor bioSampleDescriptor = bioSample.getBioSampleDescriptor();
+    BioSampleDescriptor_ bioSampleDescriptor = bioSample.getBioSampleDescriptor();
     System.out.println("Title: " + bioSampleDescriptor.getTitle().getValue());
     System.out.println("Description: " + bioSampleDescriptor.getDescription().getValue());
     System.out.println("External Link: " + bioSampleDescriptor.getExternalLink().getValue());
 
-    NCBIOrganism ncbiOrganism = bioSample.getNCBIOrganism();
+    NCBIOrganism_ ncbiOrganism = bioSample.getNCBIOrganism();
     System.out.println("Organism Name: " + ncbiOrganism.getOrganismName().getValue());
     System.out.println("Label: " + ncbiOrganism.getLabel().getValue());
     System.out.println("Strain: " + ncbiOrganism.getStrain().getValue());
@@ -86,7 +91,7 @@ public class CEDARTemplate2BioSampleSubmission
     System.out.println("Breed: " + ncbiOrganism.getBreed().getValue());
     System.out.println("Cultivar: " + ncbiOrganism.getCultivar().getValue());
 
-    BioSamplePathogenCl10Attributes bioSamplePathogenCl10Attributes = bioSample.getBioSamplePathogenCl10Attributes();
+    BioSamplePathogenCl10Attributes_ bioSamplePathogenCl10Attributes = bioSample.getBioSamplePathogenCl10Attributes();
     System.out.println("Strain: " + bioSamplePathogenCl10Attributes.getStrain().getValue());
     System.out.println("Collection Date: " + bioSamplePathogenCl10Attributes.getCollectionDate().getValue());
     System.out.println("Collected By: " + bioSamplePathogenCl10Attributes.getCollectedBy().getValue());
@@ -96,13 +101,19 @@ public class CEDARTemplate2BioSampleSubmission
     System.out.println("Host: " + bioSamplePathogenCl10Attributes.getHost().getValue());
     System.out.println("Host Disease: " + bioSamplePathogenCl10Attributes.getHostDisease().getValue());
 
-    List<BioSampleAttribute> bioSampleAttributes = bioSample.getBioSampleAttribute();
-    for (BioSampleAttribute bioSampleAttribute : bioSampleAttributes) {
+    List<BioSampleAttribute_> bioSampleAttributes = bioSample.getBioSampleAttribute();
+    for (BioSampleAttribute_ bioSampleAttribute : bioSampleAttributes) {
       System.out.println("Attribute Name: " + bioSampleAttribute.getAttributeName().getValue());
       System.out.println("Attribute Value: " + bioSampleAttribute.getAttributeValue().getValue());
     }
+    return submission;
+  }
 
-    // XML
+  private static void generateNCBIBiosampleSubmissionXML(NCBIBioSampleSubmission submission)
+    throws DatatypeConfigurationException, JAXBException
+  {
+    generated.ObjectFactory objectFactory = new generated.ObjectFactory();
+    common.sp.ObjectFactory spCommonObjectFactory = new common.sp.ObjectFactory();
 
     TypeSubmission xmlSubmission = objectFactory.createTypeSubmission();
     // schema_version="2.0"
@@ -117,7 +128,7 @@ public class CEDARTemplate2BioSampleSubmission
     // Submission/Description/Hold
     TypeSubmission.Description.Hold hold = objectFactory.createTypeSubmissionDescriptionHold();
     description.setHold(hold);
-    hold.setReleaseDate(createXMLGregorianCalendar(submission.getReleaseDate());
+    hold.setReleaseDate(createXMLGregorianCalendar(submission.getReleaseDate()));
 
     // Submission/Description/Organization
     TypeOrganization organization = objectFactory.createTypeOrganization();
