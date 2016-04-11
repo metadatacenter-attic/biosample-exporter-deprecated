@@ -22,6 +22,10 @@
     </profile>
   </profiles>
 
+  <activeProfiles>
+    <activeProfile>ci</activeProfile>
+  </activeProfiles>
+
   <servers>
     <server>
       <id>bmir-nexus-snapshots</id>
