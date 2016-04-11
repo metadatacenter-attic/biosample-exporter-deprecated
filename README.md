@@ -1,6 +1,8 @@
 CEDAR 2 BioSample Convertor
 ===========================
 
+[![Build Status](https://travis-ci.org/metadatacenter/biosample-exporter.svg?branch=master)](https://travis-ci.org/metadatacenter/biosample-exporter)
+
 #### Building and Running
 
 To build this library you must have the following items installed:
