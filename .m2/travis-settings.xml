@@ -12,6 +12,7 @@
         <repository>
           <id>bmir-nexus-snapshots</id>
           <url>https://nexus.bmir.stanford.edu/content/repositories/snapshots</url>
+          <layout>default</layout>
           <releases>
             <enabled>true</enabled>
           </releases>
@@ -22,6 +23,7 @@
         <repository>
           <id>bmir-nexus-releases</id>
           <url>https://nexus.bmir.stanford.edu/content/repositories/releases</url>
+          <layout>default</layout>
           <releases>
             <enabled>true</enabled>
           </releases>
