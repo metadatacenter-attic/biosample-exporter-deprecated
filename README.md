@@ -27,3 +27,18 @@ To run:
 
     mvn exec:java
 
+#### Submitting Generated XML to BioSample Validator
+
+curl -X POST -d @<Submission JSON>  http://www.ncbi.nlm.nih.gov/projects/biosample/validate/
+
+Some example submissions can be found in the ./examples directory.
+
+#### NCBI Submission Site
+
+Log on with Stanford institutional access.
+
+http://www.ncbi.nlm.nih.gov/home/submit.shtml
+
+Submissions:
+
+https://submit.ncbi.nlm.nih.gov/subs/
