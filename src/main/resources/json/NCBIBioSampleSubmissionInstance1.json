@@ -2,7 +2,9 @@
   "@context": {
     "_value": "https://schema.org/value",
     "nCBISubmissionDescription": "https://schema.metadatacenter.net/properties/nCBISubmissionDescription",
-    "bioSample": "https://schema.metadatacenter.net/properties/bioSample"
+    "bioSample": "https://schema.metadatacenter.net/properties/bioSample",
+    "pav": "http://purl.org/pav/",
+    "cedar": "https://schema.metadatacenter.org/core/"
   },
   "nCBISubmissionDescription": {
     "@context": {
@@ -213,5 +215,9 @@
     "templateTitle": "BioSample Submission instance",
     "templateDescription": "BioSample Submission Template"
   },
+  "pav:createdOn": "2016-04-08T09:58:50Z",
+  "pav:createdBy": "https://user.metadatacenter.net/users/6d21a887-b704-49a9-922a-aa71632f3232",
+  "pav:lastUpdatedOn": "2016-04-08T09:58:50Z",
+  "cedar:lastUpdatedBy": "https://user.metadatacenter.net/users/6d21a887-b704-49a9-922a-aa71632f3232",
   "@id": "https://repo.metadatacenter.net/template-instances/9da4298e-0c40-4c8a-8ed9-16cbb27bcfda"
 }
