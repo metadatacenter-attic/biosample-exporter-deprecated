@@ -97,12 +97,13 @@ public class CEDARInstance2BioSampleSubmissionXML
     System.out.println("Cultivar: " + ncbiOrganism.getCultivar().getValue());
 
     BioSamplePathogenCl10Attributes bioSamplePathogenCl10Attributes = bioSample.getBioSamplePathogenCl10Attributes();
-    submission.addAttribute("Strain", bioSamplePathogenCl10Attributes.getStrain().getValue());
-    submission.addAttribute("Collection Date", bioSamplePathogenCl10Attributes.getCollectionDate().getValue());
-    submission.addAttribute("Collected By", bioSamplePathogenCl10Attributes.getCollectedBy().getValue());
-    submission.addAttribute("GEO Location Name", bioSamplePathogenCl10Attributes.getGEOLocationName().getValue());
-    submission.addAttribute("Isolation Source", bioSamplePathogenCl10Attributes.getIsolationSource().getValue());
-    submission.addAttribute("Latitude/longitude", bioSamplePathogenCl10Attributes.getLatitudeLongitude().getValue());
+    submission.addAttribute("strain", bioSamplePathogenCl10Attributes.getStrain().getValue());
+    submission.addAttribute("collection_date", bioSamplePathogenCl10Attributes.getCollectionDate().getValue());
+    submission.addAttribute("collected_by", bioSamplePathogenCl10Attributes.getCollectedBy().getValue());
+    submission.addAttribute("geo_loc_name", bioSamplePathogenCl10Attributes.getGEOLocationName().getValue());
+    submission.addAttribute("isolation_source", bioSamplePathogenCl10Attributes.getIsolationSource().getValue());
+    submission.addAttribute("lat_lon", bioSamplePathogenCl10Attributes.getLatitudeLongitude().getValue());
+    submission.addAttribute("isolate_name_alias", ncbiOrganism.getIsolateName().getValue());
     submission.addAttribute("Host", bioSamplePathogenCl10Attributes.getHost().getValue());
     submission.addAttribute("Host Disease", bioSamplePathogenCl10Attributes.getHostDisease().getValue());
 
