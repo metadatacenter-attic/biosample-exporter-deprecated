@@ -29,7 +29,7 @@ To run:
 
 #### Submitting Generated XML to BioSample Validator
 
-curl -X POST -d @<Submission JSON>  http://www.ncbi.nlm.nih.gov/projects/biosample/validate/
+curl -X POST -d @<Submission XML>  http://www.ncbi.nlm.nih.gov/projects/biosample/validate/
 
 Some example submissions can be found in the ./examples directory.
 
