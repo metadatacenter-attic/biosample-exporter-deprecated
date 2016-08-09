@@ -34,12 +34,12 @@ Some example submissions can be found in the ```./examples``` directory.
 
 ## Notes
 
-Information on the overall subnmission process can be found on the [NCBI Submission page](http://www.ncbi.nlm.nih.gov/home/submit.shtml)
+Information on the overall submission process can be found on the [NCBI Submission page](http://www.ncbi.nlm.nih.gov/home/submit.shtml)
 and also [here](https://submit.ncbi.nlm.nih.gov/subs/) and [here](http://www.ncbi.nlm.nih.gov/biosample/docs/submission/faq/).
 If needed, it is possible to log on to the system with Stanford institutional access.
 
 A description of current BioSample attributes can be found [here](http://www.ncbi.nlm.nih.gov/biosample/docs/attributes/).
-BioSample defines a set of `packages` that define attribute groups for certain domains.
+BioSample defines a set of packages that define attribute groups for certain domains.
 These are described [here](http://www.ncbi.nlm.nih.gov/biosample/docs/packages/).
 
 This converter does not have inbuilt support for packages. 
