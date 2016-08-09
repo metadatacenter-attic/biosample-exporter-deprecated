@@ -3,18 +3,18 @@ CEDAR 2 BioSample Converter
 
 [![Build Status](https://travis-ci.org/metadatacenter/biosample-exporter.svg?branch=master)](https://travis-ci.org/metadatacenter/biosample-exporter)
 
-This converter takes a CEDAR BioSamples submission template instance and converts it into a BioSample XML submission.
+This converter takes a CEDAR BioSamples submission template instances and converts them into [BioSample](http://www.ncbi.nlm.nih.gov/biosample/) XML-based submissions.
 
 The ```./src/main/resources/json-schema/``` directory contains a CEDAR BioSample template called 
 [NCBIBioSampleSubmissionTemplate.json](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/json-schema/NCBIBioSampleSubmissionTemplate.json).
-This template was generated using the CEDAR Template Editor.
+This template was generated using the CEDAR Template Creator.
 
 The ```./src/main/resources/xsd/``` directory contains an XML Schema document describing a BioSample submission.
 It is called [BioSampleSubmission.xsd](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/xsd/BioSampleSubmission.xsd). 
 Two sub-schemas are defined in the files ```SP.common.xsd``` and ```biosample.xsd```.
 The schema files were downloaded from the NCBI site. 
 
-The CEDAR Metadata Editor can use this template to generate a CEDAR instance of a BioSample submission. 
+The CEDAR Metadata Editor can use the CEDAR submission template to generate a CEDAR instance of a BioSample submission. 
 The ```./src/main/resources/json/``` directory contains an example instance created using this template.
 It is called [NCBIBioSampleSubmissionInstance1.json](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/json/NCBIBioSampleSubmissionInstance1.json).
 Other instances can be generated using the CEDAR Metadata Editor.
