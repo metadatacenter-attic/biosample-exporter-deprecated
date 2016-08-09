@@ -46,7 +46,7 @@ This converter does not have inbuilt support for packages.
 Similarly, the CEDAR BioSample submission template does not support them.
 More work remains to correctly deal with packages.
 
-#### Building and Running
+## Building and Running
 
 To build this library you must have the following items installed:
 
