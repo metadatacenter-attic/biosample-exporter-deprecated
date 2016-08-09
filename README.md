@@ -3,6 +3,8 @@ CEDAR 2 BioSample Converter
 
 [![Build Status](https://travis-ci.org/metadatacenter/biosample-exporter.svg?branch=master)](https://travis-ci.org/metadatacenter/biosample-exporter)
 
+This is an experimental CEDAR project to generate [BioSample](http://www.ncbi.nlm.nih.gov/biosample/) submissions.
+
 This converter takes a CEDAR BioSamples submission template instances and converts them into [BioSample](http://www.ncbi.nlm.nih.gov/biosample/) XML-based submissions.
 
 The ```./src/main/resources/json-schema/``` directory contains a CEDAR BioSample template called 
@@ -30,9 +32,19 @@ The following is an example ```curl``` command to submit XML to this validator:
 
 Some example submissions can be found in the ```./examples``` directory.
 
+## Notes
+
 Information on the overall subnmission process can be found on the [NCBI Submission page](http://www.ncbi.nlm.nih.gov/home/submit.shtml)
-and also [here](https://submit.ncbi.nlm.nih.gov/subs/).
+and also [here](https://submit.ncbi.nlm.nih.gov/subs/) and [here](http://www.ncbi.nlm.nih.gov/biosample/docs/submission/faq/).
 If needed, it is possible to log on to the system with Stanford institutional access.
+
+A description of current BioSample attributes can be found [here](http://www.ncbi.nlm.nih.gov/biosample/docs/attributes/).
+BioSample defines a set of `packages` that define attribute groups for certain domains.
+These are described [here](http://www.ncbi.nlm.nih.gov/biosample/docs/packages/).
+
+This converter does not have inbuilt support for packages. 
+Similarly, the CEDAR BioSample submission template does not support them.
+More work remains to correctly deal with packages.
 
 #### Building and Running
 
