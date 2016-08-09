@@ -3,23 +3,26 @@ CEDAR 2 BioSample Converter
 
 [![Build Status](https://travis-ci.org/metadatacenter/biosample-exporter.svg?branch=master)](https://travis-ci.org/metadatacenter/biosample-exporter)
 
-This converter takes a CEDAR BioSample template instance and converts it into a BioSample XML submission.
+This converter takes a CEDAR BioSamples submission template instance and converts it into a BioSample XML submission.
 
-The ```./src/main/resources/json-schema/``` directory contains a CEDAR BioSample template called ```NCBIBioSampleSubmissionTemplate.json```.
-This template was generated using the CEDAR template editor.
+The ```./src/main/resources/json-schema/``` directory contains a CEDAR BioSample template called 
+[NCBIBioSampleSubmissionTemplate.json](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/json-schema/NCBIBioSampleSubmissionTemplate.json).
+This template was generated using the CEDAR Template Editor.
 
 The ```./src/main/resources/xsd/``` directory contains an XML Schema document describing a BioSample submission.
-It is called ```BioSampleSubmission.xsd```. 
+It is called [BioSampleSubmission.xsd](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/xsd/BioSampleSubmission.xsd). 
 Two sub-schemas are defined in the files ```SP.common.xsd``` and ```biosample.xsd```.
+The schema files were downloaded from the NCBI site. 
 
-The CEDAR template editor can use this template to generate a CEDAR instance of a BioSample submission. 
+The CEDAR Metadata Editor can use this template to generate a CEDAR instance of a BioSample submission. 
 The ```./src/main/resources/json/``` directory contains an example instance created using this template.
-It is called ```NCBIBioSampleSubmissionInstance1.json```.
+It is called [NCBIBioSampleSubmissionInstance1.json](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/json/NCBIBioSampleSubmissionInstance1.json).
+Other instances can be generated using the CEDAR Metadata Editor.
 
-This converter takes CEDAR BioSample submission instances and generates XML documents conforming to the
+This converter takes these CEDAR BioSample submission instances and generates XML documents conforming to the
 BioSample submission XML Schema.
 
-These XML documents can be validated using the [NCBI BioSample validator](http://www.ncbi.nlm.nih.gov/projects/biosample/validate/).
+These XML documents can then be validated using the [NCBI BioSample validator](http://www.ncbi.nlm.nih.gov/projects/biosample/validate/).
 
 The following is an example ```curl``` command to submit XML to this validator:
 
