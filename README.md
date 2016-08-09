@@ -5,7 +5,7 @@ CEDAR 2 BioSample Converter
 
 This is an experimental CEDAR project to generate [BioSample](http://www.ncbi.nlm.nih.gov/biosample/) submissions.
 
-This converter takes CEDAR BioSamples submission template instances and converts them into [BioSample](http://www.ncbi.nlm.nih.gov/biosample/) XML-based submissions.
+This converter takes CEDAR BioSample submission instances and converts them into [BioSample](http://www.ncbi.nlm.nih.gov/biosample/) XML-based submissions.
 
 The ```./src/main/resources/json-schema/``` directory contains a CEDAR BioSample template called 
 [NCBIBioSampleSubmissionTemplate.json](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/json-schema/NCBIBioSampleSubmissionTemplate.json).
