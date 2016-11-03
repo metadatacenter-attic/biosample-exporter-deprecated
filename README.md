@@ -68,7 +68,7 @@ A failure could look as follows:
 </BioSampleValidate>
 ```
 
-## Notes
+## Packages
 
 Information on the overall submission process can be found on the [NCBI Submission page](http://www.ncbi.nlm.nih.gov/home/submit.shtml)
 and also [here](https://submit.ncbi.nlm.nih.gov/subs/) and [here](http://www.ncbi.nlm.nih.gov/biosample/docs/submission/faq/).
@@ -81,6 +81,14 @@ These are described [here](http://www.ncbi.nlm.nih.gov/biosample/docs/packages/)
 This converter does not have inbuilt support for packages. 
 Similarly, the CEDAR BioSample submission template does not support them.
 More work remains to correctly deal with packages.
+
+## Human.1.0 Package
+
+An definition of the `Human.1.0` package can be found [here](https://www.ncbi.nlm.nih.gov/biosample/docs/packages/Human.1.0/).
+
+A detailed description the attributes in this package can be found [here](https://www.ncbi.nlm.nih.gov/biosample/docs/packages/Human.1.0/?format=xml).
+
+An example submission using the `Human.1.0` package can be found [here](https://www.ncbi.nlm.nih.gov/biosample?Db=biosample&Cmd=ShowDetailView&TermToSearch=2911274).
 
 ## Building and Running
 

@@ -1,0 +1,50 @@
+<Submission >
+  <Description>
+    <Comment>BP(1.0)+BS(1.0)+SRA</Comment>
+    <Organization role="master" type="institute">
+      <Name>The Jedi Order</Name>
+      <Contact email="Luke.Skywalker@galaxy.org">
+        <Name>
+          <First>Luke</First>
+          <Last>Skywalker</Last>
+        </Name>
+      </Contact>
+    </Organization>
+    <Hold release_date="2016-01-31"></Hold>
+  </Description>
+
+  <Action>
+    <AddData target_db="BioSample">
+      <Data content_type="XML">
+        <XmlContent>
+          <BioSample schema_version="2.0">
+            <SampleId>
+              <SPUID spuid_namespace="JEDI-MIDI">MIDI_ISO_9154</SPUID>
+            </SampleId>
+            <Descriptor>
+              <Title>Midi-chlorian isolates collected from a Jedi</Title>
+            </Descriptor>
+            <Organism>
+              <OrganismName>Homo sapiens</OrganismName>
+            </Organism>
+            <BioProject>
+              <PrimaryId db="BioProject">PRJNA212117</PrimaryId>
+            </BioProject>
+            <Package>Human.1.0</Package>
+            <Attributes>
+              <Attribute attribute_name="isolate">IsolateID4</Attribute>
+              <Attribute attribute_name="age">34</Attribute>
+              <Attribute attribute_name="sex">missing</Attribute>
+              <Attribute attribute_name="biomaterial provider">Roche</Attribute>
+              <Attribute attribute_name="tissue">liver</Attribute>
+            </Attributes>
+          </BioSample>
+        </XmlContent>
+      </Data>
+      <Identifier>
+        <SPUID spuid_namespace="JEDI-MIDI">MIDI_ISO_9154</SPUID> 
+      </Identifier>
+    </AddData>
+  </Action>
+  
+</Submission>
