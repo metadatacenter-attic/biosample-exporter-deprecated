@@ -27,7 +27,7 @@
               <OrganismName>Midi-chlorian</OrganismName>
             </Organism>
             <BioProject>
-              <PrimaryId db="BioProject">PRJNA999999</PrimaryId>
+              <PrimaryId db="BioProject">PRJNA212117</PrimaryId>
             </BioProject>
             <Package>Pathogen.env.1.0</Package>
             <Attributes>

@@ -9,7 +9,7 @@ This converter takes CEDAR BioSample submission instances and converts them into
 
 The ```./src/main/resources/json-schema/``` directory contains a CEDAR BioSample template called 
 [NCBIBioSampleSubmissionTemplate.json](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/json-schema/NCBIBioSampleSubmissionTemplate.json).
-This template was generated using the CEDAR Template Creator.
+This template was generated using the CEDAR Template Designer.
 
 The ```./src/main/resources/xsd/``` directory contains an XML Schema document describing a BioSample submission.
 It is called [BioSampleSubmission.xsd](https://github.com/metadatacenter/biosample-exporter/blob/develop/src/main/resources/xsd/BioSampleSubmission.xsd). 
@@ -31,6 +31,42 @@ The following is an example ```curl``` command to submit XML to this validator:
     curl -X POST -d @<Submission XML>  http://www.ncbi.nlm.nih.gov/projects/biosample/validate/
 
 Some example submissions can be found in the ```./examples``` directory.
+
+Each submission requires a BioSample project identifier. Our idenfifier for testing is PRJNA212117.
+
+An XML document is returned from the validator with the validation status.
+
+A success could look as follows:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<BioSampleValidate>
+  <Action status="processed-ok" action_id="SUB123456-1" target_db="BioSample">
+    <Response status="processed-ok">
+      <Message error_code="34" severity="warning" error_source="data">Submission processing may be delayed due to necessary curator review. Please check spelling of organism, current information generated the following error message and will require a taxonomy consult: Organism not found, value 'Midi-chlorian'.</Message>
+      <Object target_db="BioSample" object_id="" spuid="MIDI_ISO_9154" spuid_namespace="JEDI-MIDI"/>
+    </Response>
+  </Action>
+</BioSampleValidate>
+```
+
+A failure could look as follows:
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<BioSampleValidate>
+  <Action status="processed-error" action_id="SUB123456-1" target_db="BioSample">
+    <Response status="processed-error">
+      <Message error_code="62" severity="error-stop" error_source="data">Invalid BioProject accession: PRJNA212117XXXXX. Please provide a valid BioProject accession with format PRJxxxxx.</Message>
+      <Object target_db="BioSample" object_id="" spuid="MIDI_ISO_9154" spuid_namespace="JEDI-MIDI"/>
+    </Response>
+    <Response status="processed-ok">
+      <Message error_code="34" severity="warning" error_source="data">Submission processing may be delayed due to necessary curator review. Please check spelling of organism, current information generated the following error message and will require a taxonomy consult: Organism not found, value 'Midi-chlorian'.</Message>
+      <Object target_db="BioSample" object_id="" spuid="MIDI_ISO_9154" spuid_namespace="JEDI-MIDI"/>
+    </Response>
+  </Action>
+</BioSampleValidate>
+```
 
 ## Notes
 
