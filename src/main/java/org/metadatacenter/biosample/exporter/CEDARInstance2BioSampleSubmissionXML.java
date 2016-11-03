@@ -39,57 +39,57 @@ public class CEDARInstance2BioSampleSubmissionXML
     NCBIBioSampleSubmissionTemplate bioSampleSubmissionInstance = mapper
       .readValue(submissionInstanceJSONFile, NCBIBioSampleSubmissionTemplate.class);
 
-    NCBIBioSampleSubmission submission = extractSubmissionFromInstance(bioSampleSubmissionInstance);
+    NCBIBioSampleSubmission submission = extractBioSampleSubmissionFromCEDARInstance(bioSampleSubmissionInstance);
 
     generateNCBIBioSampleSubmissionXML(submission);
   }
 
-  private static NCBIBioSampleSubmission extractSubmissionFromInstance(
+  private static NCBIBioSampleSubmission extractBioSampleSubmissionFromCEDARInstance(
     NCBIBioSampleSubmissionTemplate bioSampleSubmissionInstance)
   {
-    NCBIBioSampleSubmission submission = new NCBIBioSampleSubmission();
+    NCBIBioSampleSubmission bioSampleSubmission = new NCBIBioSampleSubmission();
 
     NCBISubmissionDescription ncbiSubmissionDescription = bioSampleSubmissionInstance.getNCBISubmissionDescription();
 
-    submission.setComment(ncbiSubmissionDescription.getComment().getValue());
-    submission.setReleaseDate(ncbiSubmissionDescription.getReleaseDate().getValue());
+    bioSampleSubmission.setComment(ncbiSubmissionDescription.getComment().getValue());
+    bioSampleSubmission.setReleaseDate(ncbiSubmissionDescription.getReleaseDate().getValue());
 
-    submission.setOrganizationRole("XXX role");
-    submission.setOrganizationType("XXX type");
+    bioSampleSubmission.setOrganizationType("master");
+    bioSampleSubmission.setOrganizationRole("institute");
 
     NCBIOrganization ncbiOrganization = ncbiSubmissionDescription.getNCBIOrganization();
-    submission.setOrganizationName(ncbiOrganization.getInstitutionName().getValue());
+    bioSampleSubmission.setOrganizationName(ncbiOrganization.getInstitutionName().getValue());
 
     NCBIContact ncbiContact = ncbiOrganization.getNCBIContact();
-    submission.setOrganizationContactEmailAddress(ncbiContact.getEmail().getValue());
+    bioSampleSubmission.setOrganizationContactEmailAddress(ncbiContact.getEmail().getValue());
 
     NCBIName ncbiName = ncbiContact.getNCBIName();
-    submission.setOrganizationContactFirstName(ncbiName.getFirstName().getValue());
-    submission.setOrganizationContactMiddleInitial(ncbiName.getMiddleInitial().getValue());
-    submission.setOrganizationContactLastName(ncbiName.getLastName().getValue());
+    bioSampleSubmission.setOrganizationContactFirstName(ncbiName.getFirstName().getValue());
+    bioSampleSubmission.setOrganizationContactMiddleInitial(ncbiName.getMiddleInitial().getValue());
+    bioSampleSubmission.setOrganizationContactLastName(ncbiName.getLastName().getValue());
 
     BioSample bioSample = bioSampleSubmissionInstance.getBioSample();
-    submission.setBioSampleBioProjectPrimaryID(bioSample.getBioProjectID().getValue());
-    submission.setBioSamplePackageID(bioSample.getPackage().getValue());
+    bioSampleSubmission.setBioSampleBioProjectPrimaryID(bioSample.getBioProjectID().getValue());
+    bioSampleSubmission.setBioSamplePackageID(bioSample.getPackage().getValue());
 
     BioSampleSampleID bioSampleSampleID = bioSample.getBioSampleSampleID();
-    submission.setBioSampleDescriptorExternalLinkLabel(bioSampleSampleID.getLabel().getValue());
+    bioSampleSubmission.setBioSampleDescriptorExternalLinkLabel(bioSampleSampleID.getLabel().getValue());
     System.out.println("Display: " + bioSampleSampleID.getDisplay().getValue());
     // TODO
 
     NCBISPUID ncbiSPUID = bioSampleSampleID.getNCBISPUID();
-    submission.setBioSampleSampleIDSPUIDSubmitterIdentifier(ncbiSPUID.getSubmitterID().getValue());
+    bioSampleSubmission.setBioSampleSampleIDSPUIDSubmitterIdentifier(ncbiSPUID.getSubmitterID().getValue());
     System.out.println("Namespace: " + ncbiSPUID.getNamespace().getValue());
     // TODO
     System.out.println("Value: " + ncbiSPUID.getValue().getValue());
 
     BioSampleDescriptor bioSampleDescriptor = bioSample.getBioSampleDescriptor();
-    submission.setBioSampleDescriptorTitle(bioSampleDescriptor.getTitle().getValue());
-    submission.setBioSampleDescriptorDescription(bioSampleDescriptor.getDescription().getValue());
-    submission.setBioSampleDescriptorExternalLinkURL(bioSampleDescriptor.getExternalLink().getValue());
+    bioSampleSubmission.setBioSampleDescriptorTitle(bioSampleDescriptor.getTitle().getValue());
+    bioSampleSubmission.setBioSampleDescriptorDescription(bioSampleDescriptor.getDescription().getValue());
+    bioSampleSubmission.setBioSampleDescriptorExternalLinkURL(bioSampleDescriptor.getExternalLink().getValue());
 
     NCBIOrganism ncbiOrganism = bioSample.getNCBIOrganism();
-    submission.setBioSampleOrganismName(ncbiOrganism.getOrganismName().getValue());
+    bioSampleSubmission.setBioSampleOrganismName(ncbiOrganism.getOrganismName().getValue());
     System.out.println("Label: " + ncbiOrganism.getLabel().getValue());
     System.out.println("Strain: " + ncbiOrganism.getStrain().getValue());
     System.out.println("Isolate Name: " + ncbiOrganism.getIsolateName().getValue());
@@ -97,22 +97,22 @@ public class CEDARInstance2BioSampleSubmissionXML
     System.out.println("Cultivar: " + ncbiOrganism.getCultivar().getValue());
 
     BioSamplePathogenCl10Attributes bioSamplePathogenCl10Attributes = bioSample.getBioSamplePathogenCl10Attributes();
-    submission.addAttribute("strain", bioSamplePathogenCl10Attributes.getStrain().getValue());
-    submission.addAttribute("collection_date", bioSamplePathogenCl10Attributes.getCollectionDate().getValue());
-    submission.addAttribute("collected_by", bioSamplePathogenCl10Attributes.getCollectedBy().getValue());
-    submission.addAttribute("geo_loc_name", bioSamplePathogenCl10Attributes.getGEOLocationName().getValue());
-    submission.addAttribute("isolation_source", bioSamplePathogenCl10Attributes.getIsolationSource().getValue());
-    submission.addAttribute("lat_lon", bioSamplePathogenCl10Attributes.getLatitudeLongitude().getValue());
-    submission.addAttribute("isolate_name_alias", ncbiOrganism.getIsolateName().getValue());
-    submission.addAttribute("Host", bioSamplePathogenCl10Attributes.getHost().getValue());
-    submission.addAttribute("Host Disease", bioSamplePathogenCl10Attributes.getHostDisease().getValue());
+    bioSampleSubmission.addAttribute("strain", bioSamplePathogenCl10Attributes.getStrain().getValue());
+    bioSampleSubmission.addAttribute("collection_date", bioSamplePathogenCl10Attributes.getCollectionDate().getValue());
+    bioSampleSubmission.addAttribute("collected_by", bioSamplePathogenCl10Attributes.getCollectedBy().getValue());
+    bioSampleSubmission.addAttribute("geo_loc_name", bioSamplePathogenCl10Attributes.getGEOLocationName().getValue());
+    bioSampleSubmission.addAttribute("isolation_source", bioSamplePathogenCl10Attributes.getIsolationSource().getValue());
+    bioSampleSubmission.addAttribute("lat_lon", bioSamplePathogenCl10Attributes.getLatitudeLongitude().getValue());
+    bioSampleSubmission.addAttribute("isolate_name_alias", ncbiOrganism.getIsolateName().getValue());
+    bioSampleSubmission.addAttribute("Host", bioSamplePathogenCl10Attributes.getHost().getValue());
+    bioSampleSubmission.addAttribute("Host Disease", bioSamplePathogenCl10Attributes.getHostDisease().getValue());
 
     List<BioSampleAttribute> bioSampleAttributes = bioSample.getBioSampleAttribute();
     for (BioSampleAttribute bioSampleAttribute : bioSampleAttributes) {
-      submission.addAttribute(bioSampleAttribute.getAttributeName().getValue(),
+      bioSampleSubmission.addAttribute(bioSampleAttribute.getAttributeName().getValue(),
         bioSampleAttribute.getAttributeValue().getValue());
     }
-    return submission;
+    return bioSampleSubmission;
   }
 
   private static void generateNCBIBioSampleSubmissionXML(NCBIBioSampleSubmission submission)

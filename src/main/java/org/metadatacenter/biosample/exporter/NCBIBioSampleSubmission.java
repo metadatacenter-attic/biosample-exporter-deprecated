@@ -6,7 +6,7 @@ import java.util.List;
 
 public class NCBIBioSampleSubmission
 {
-  private String comment = "";
+  private String comment = "Example CEDAR-generated BioSample submission using the Human.1.0 package";
   private String releaseDate = "";
   private String organizationRole = "";
   private String organizationType = "";
@@ -15,21 +15,22 @@ public class NCBIBioSampleSubmission
   private String organizationContactFirstName = "";
   private String organizationContactMiddleInitial = "";
   private String organizationContactLastName = "";
-  private final String targetDatabase = "BioSample";
-  private final String bioSampleSubmissionContentType = "XML";
-  private final String bioSampleSchemaVersion = "2.0";
-  private final String bioSampleSchemaLocation = "http://www.ncbi.nlm.nih.gov/viewvc/v1/trunk/submit/public-docs/biosample/biosample.xsd?view=co";
   private String bioSampleSampleIDSPUIDSubmitterIdentifier = "";
-  private final String bioSampleSampleIDSPUIDNamespace = "Institute Name";
   private String bioSampleDescriptorDescription = "";
   private String bioSampleDescriptorExternalLinkLabel = "";
   private String bioSampleDescriptorExternalLinkURL = "";
   private String bioSampleDescriptorTitle = "";
   private String bioSampleOrganismName = "";
-  private final String bioSampleBioProjectPrimaryIDDatabase = "BioProject";
   private String bioSampleBioProjectPrimaryID = "";
   private String bioSamplePackageID = "";
   private final List<Attribute> attributes = new ArrayList<>();
+
+  private final String bioSampleBioProjectPrimaryIDDatabase = "BioProject";
+  private final String targetDatabase = "BioSample";
+  private final String bioSampleSubmissionContentType = "XML";
+  private final String bioSampleSchemaVersion = "2.0";
+  private final String bioSampleSchemaLocation = "http://www.ncbi.nlm.nih.gov/viewvc/v1/trunk/submit/public-docs/biosample/biosample.xsd?view=co";
+  private final String bioSampleSampleIDSPUIDNamespace = "Institute Name";
 
   public void setBioSampleBioProjectPrimaryID(String bioSampleBioProjectPrimaryID)
   {
@@ -106,11 +107,6 @@ public class NCBIBioSampleSubmission
     return bioSampleDescriptorTitle;
   }
 
-  public String getBioSampleDescriptorDescription()
-  {
-    return bioSampleDescriptorDescription;
-  }
-
   public String getBioSampleDescriptorExternalLinkLabel()
   {
     return bioSampleDescriptorExternalLinkLabel;
@@ -134,11 +130,6 @@ public class NCBIBioSampleSubmission
   public String getBioSampleSchemaVersion()
   {
     return bioSampleSchemaVersion;
-  }
-
-  public String getBioSampleSchemaLocation()
-  {
-    return bioSampleSchemaLocation;
   }
 
   public String getBioSampleSubmissionContentType()
