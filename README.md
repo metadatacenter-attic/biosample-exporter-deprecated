@@ -32,7 +32,7 @@ The following is an example ```curl``` command to submit XML to this validator:
 
 Some example submissions can be found in the ```./examples``` directory.
 
-Each submission requires a BioSample project identifier. Our idenfifier for testing is PRJNA212117.
+Each submission requires a BioSample project identifier. Our identifier for testing is `PRJNA212117`.
 
 An XML document is returned from the validator with the validation status.
 
