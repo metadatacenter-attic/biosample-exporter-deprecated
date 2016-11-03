@@ -88,7 +88,9 @@ An definition of the `Human.1.0` package can be found [here](https://www.ncbi.nl
 
 A detailed description the attributes in this package can be found [here](https://www.ncbi.nlm.nih.gov/biosample/docs/packages/Human.1.0/?format=xml).
 
-An example submission using the `Human.1.0` package can be found [here](https://www.ncbi.nlm.nih.gov/biosample?Db=biosample&Cmd=ShowDetailView&TermToSearch=2911274).
+An descriptions of a submission using the `Human.1.0` package can be found [here](https://www.ncbi.nlm.nih.gov/biosample?Db=biosample&Cmd=ShowDetailView&TermToSearch=2911274).
+
+An example XML submission using the `Human.1.0` package can be found in the `./examples/` subdirectory.
 
 ## Building and Running
 

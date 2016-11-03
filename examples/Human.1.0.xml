@@ -1,16 +1,20 @@
 <Submission >
+
   <Description>
-    <Comment>BP(1.0)+BS(1.0)+SRA</Comment>
+    <Comment>Example BioSample submission using the Human.1.0 package</Comment>
+
     <Organization role="master" type="institute">
-      <Name>The Jedi Order</Name>
-      <Contact email="Luke.Skywalker@galaxy.org">
+      <Name>CEDAR</Name>
+      <Contact email="metadatacenter@gmail.com">
         <Name>
-          <First>Luke</First>
-          <Last>Skywalker</Last>
+          <First>Mr.</First>
+          <Last>CEDAR</Last>
         </Name>
       </Contact>
     </Organization>
+
     <Hold release_date="2016-01-31"></Hold>
+
   </Description>
 
   <Action>
@@ -18,19 +22,25 @@
       <Data content_type="XML">
         <XmlContent>
           <BioSample schema_version="2.0">
+
             <SampleId>
               <SPUID spuid_namespace="CEDAR">CEDAR_BIOSAMPLE_123</SPUID>
             </SampleId>
+
             <Descriptor>
-              <Title>Midi-chlorian isolates collected from a Jedi</Title>
+              <Title>Example BioSample submission using Human.1.0 package</Title>
             </Descriptor>
+
             <Organism>
               <OrganismName>Homo sapiens</OrganismName> <!-- This term in controlled -->
             </Organism>
+
             <BioProject>
               <PrimaryId db="BioProject">PRJNA212117</PrimaryId> <!-- CEDAR's project ID for testing -->
             </BioProject>
+
             <Package>Human.1.0</Package>
+
             <Attributes>
 
               <!-- Required attributes -->
@@ -56,9 +66,12 @@
               <Attribute attribute_name="population">xxx</Attribute>
               <Attribute attribute_name="sample type">xxx</Attribute>
             </Attributes>
+
           </BioSample>
+
         </XmlContent>
       </Data>
+
       <Identifier>
         <SPUID spuid_namespace="CEDAR">CEDAR_BIOSAMPLE_123</SPUID> 
       </Identifier>
