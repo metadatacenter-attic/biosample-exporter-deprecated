@@ -24,11 +24,11 @@ Other instances can be generated using the CEDAR Metadata Editor.
 This converter takes these CEDAR BioSample submission instances and generates XML documents conforming to the
 BioSample submission XML Schema.
 
-These XML documents can then be validated using the [NCBI BioSample validator](http://www.ncbi.nlm.nih.gov/projects/biosample/validate/).
+These XML documents can then be validated using the [NCBI BioSample validator](https://www.ncbi.nlm.nih.gov/projects/biosample/validate/).
 
 The following is an example ```curl``` command to submit XML to this validator:
 
-    curl -X POST -d @<Submission XML>  http://www.ncbi.nlm.nih.gov/projects/biosample/validate/
+    curl -X POST -d @<Submission XML>  https://www.ncbi.nlm.nih.gov/projects/biosample/validate/
 
 Some example submissions can be found in the ```./examples``` directory.
 
