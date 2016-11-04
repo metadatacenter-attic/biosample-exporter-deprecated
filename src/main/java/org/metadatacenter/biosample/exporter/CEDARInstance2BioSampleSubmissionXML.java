@@ -23,7 +23,6 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -35,7 +34,7 @@ public class CEDARInstance2BioSampleSubmissionXML
 
     mapper.setSerializationInclusion(JsonInclude.Include.ALWAYS);
 
-      File submissionInstanceJSONFile = new File(CEDARInstance2BioSampleSubmissionXML.class.getClassLoader()
+    File submissionInstanceJSONFile = new File(CEDARInstance2BioSampleSubmissionXML.class.getClassLoader()
       .getResource("./json/NCBIBioSampleSubmissionInstance1.json").getFile());
 
     NCBIBioSampleSubmissionTemplate bioSampleSubmission = mapper
@@ -116,8 +115,9 @@ public class CEDARInstance2BioSampleSubmissionXML
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/SampleID/SPUID
     TypeBioSampleIdentifier.SPUID spuid = objectFactory.createTypeBioSampleIdentifierSPUID();
+    sampleID.getSPUID().add(spuid);
     spuid.setSpuidNamespace("CEDAR");
-    spuid.setValue("XXX"); // TODO Sample ID
+    spuid.setValue("Sample123"); // TODO Sample ID
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/Descriptor
     TypeDescriptor descriptor = spCommonObjectFactory.createTypeDescriptor();
@@ -127,7 +127,7 @@ public class CEDARInstance2BioSampleSubmissionXML
     // Submission/Action/AddData/Data/XMLContent/BioSample/Organism
     TypeOrganism organism = spCommonObjectFactory.createTypeOrganism();
     bioSample.setOrganism(organism);
-    organism.setOrganismName("XXX"); // TODO Organism
+    organism.setOrganismName("Homo sapiens"); // TODO Organism
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/BioProject
     TypeRefId bioProject = spCommonObjectFactory.createTypeRefId();
@@ -147,12 +147,30 @@ public class CEDARInstance2BioSampleSubmissionXML
     bioSample.setAttributes(attributes);
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/Attributes/Attribute
-    for (NCBIBioSampleSubmission.Attribute bioSampleAttribute : new ArrayList<NCBIBioSampleSubmission.Attribute>()) { // TODO attributes
-      TypeAttribute attribute = objectFactory.createTypeAttribute();
-      attributes.getAttribute().add(attribute);
-      attribute.setAttributeName(bioSampleAttribute.getAttributeName());
-      attribute.setValue(bioSampleAttribute.getAttributeValue());
-    }
+    TypeAttribute attribute = objectFactory.createTypeAttribute();
+    attributes.getAttribute().add(attribute);
+    attribute.setAttributeName("isolate");
+    attribute.setValue("Isolate2");
+
+    attribute = objectFactory.createTypeAttribute();
+    attributes.getAttribute().add(attribute);
+    attribute.setAttributeName("age");
+    attribute.setValue("34");
+
+    attribute = objectFactory.createTypeAttribute();
+    attributes.getAttribute().add(attribute);
+    attribute.setAttributeName("sex");
+    attribute.setValue("male");
+
+    attribute = objectFactory.createTypeAttribute();
+    attributes.getAttribute().add(attribute);
+    attribute.setAttributeName("biomaterial provider");
+    attribute.setValue("Roche");
+
+    attribute = objectFactory.createTypeAttribute();
+    attributes.getAttribute().add(attribute);
+    attribute.setAttributeName("tissue");
+    attribute.setValue("xxx");
 
     JAXBElement<TypeSubmission> submissionRoot = objectFactory.createSubmission(xmlSubmission);
 
@@ -219,7 +237,8 @@ public class CEDARInstance2BioSampleSubmissionXML
     bioSampleSubmission.addAttribute("collection_date", bioSamplePathogenCl10Attributes.getCollectionDate().getValue());
     bioSampleSubmission.addAttribute("collected_by", bioSamplePathogenCl10Attributes.getCollectedBy().getValue());
     bioSampleSubmission.addAttribute("geo_loc_name", bioSamplePathogenCl10Attributes.getGEOLocationName().getValue());
-    bioSampleSubmission.addAttribute("isolation_source", bioSamplePathogenCl10Attributes.getIsolationSource().getValue());
+    bioSampleSubmission
+      .addAttribute("isolation_source", bioSamplePathogenCl10Attributes.getIsolationSource().getValue());
     bioSampleSubmission.addAttribute("lat_lon", bioSamplePathogenCl10Attributes.getLatitudeLongitude().getValue());
     bioSampleSubmission.addAttribute("isolate_name_alias", ncbiOrganism.getIsolateName().getValue());
     bioSampleSubmission.addAttribute("Host", bioSamplePathogenCl10Attributes.getHost().getValue());
@@ -232,7 +251,6 @@ public class CEDARInstance2BioSampleSubmissionXML
     }
     return bioSampleSubmission;
   }
-
 
   private static XMLGregorianCalendar createXMLGregorianCalendar(String date) throws DatatypeConfigurationException
   {
