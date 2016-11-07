@@ -26,6 +26,8 @@ BioSample submission XML Schema.
 
 These XML documents can then be validated using the [NCBI BioSample validator](https://www.ncbi.nlm.nih.gov/projects/biosample/validate/).
 
+Documentation for this service can be found [here](https://www.ncbi.nlm.nih.gov/biosample/docs/submission/validation-service/).
+
 The following is an example ```curl``` command to submit XML to this validator:
 
     curl -X POST -d @<Submission XML>  https://www.ncbi.nlm.nih.gov/projects/biosample/validate/
@@ -35,6 +37,11 @@ Some example submissions can be found in the ```./examples``` directory.
 Each submission requires a BioSample project identifier. Our identifier for testing is `PRJNA212117`.
 
 An XML document is returned from the validator with the validation status.
+This schema for this XML response can be found [here](https://www.ncbi.nlm.nih.gov/viewvc/v1/trunk/submit/public-docs/common/submission-response.xsd?view=markup).
+
+Note that - as per instructons - we have to change the root node from `SubmissionStatus` to `BioSampleValidate`.
+Also, `typeFile` has to be reanamed to `typeFile2` to avoid name collision with an element of the same
+name in the `BioSampleSubmission` XML Schema.
 
 A success could look as follows:
 

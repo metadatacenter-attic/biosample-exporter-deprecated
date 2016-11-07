@@ -18,6 +18,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
@@ -30,6 +31,10 @@ public class CEDARInstance2BioSampleSubmissionXML
   public static void main(String[] argc) throws IOException, JAXBException, DatatypeConfigurationException
   {
     ObjectMapper mapper = new ObjectMapper();
+
+    JAXBContext jaxbBioSampleValidateContext = JAXBContext.newInstance(BioSampleValidate.class);
+    Unmarshaller jaxbBioSampleValidateUnmarshaller = jaxbBioSampleValidateContext.createUnmarshaller();
+
     File submissionInstanceJSONFile = new File(CEDARInstance2BioSampleSubmissionXML.class.getClassLoader()
       .getResource("./json/AMIA2016DemoBioSampleInstance1.json").getFile());
 
@@ -38,7 +43,10 @@ public class CEDARInstance2BioSampleSubmissionXML
 
     generateNCBIBioSampleSubmissionXML(amiaBioSampleSubmission);
 
-    BioSampleValidate bioSampleValidate = new BioSampleValidate();
+    File bioSampleValidatorResponseXMLFile = new File(CEDARInstance2BioSampleSubmissionXML.class.getClassLoader()
+      .getResource("./xml/BioSampleValidatorResponse1.xml").getFile());
+
+    BioSampleValidate s = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller.unmarshal(bioSampleValidatorResponseXMLFile);
   }
 
   private static void generateNCBIBioSampleSubmissionXML(AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
