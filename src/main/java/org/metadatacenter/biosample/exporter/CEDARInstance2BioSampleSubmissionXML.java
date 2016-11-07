@@ -5,6 +5,7 @@ import common.sp.TypeDescriptor;
 import common.sp.TypeOrganism;
 import common.sp.TypePrimaryId;
 import common.sp.TypeRefId;
+import generated.BioSampleValidate;
 import generated.TypeAttribute;
 import generated.TypeBioSample;
 import generated.TypeBioSampleIdentifier;
@@ -36,6 +37,8 @@ public class CEDARInstance2BioSampleSubmissionXML
       .readValue(submissionInstanceJSONFile, AMIA2016DemoBioSampleTemplate.class);
 
     generateNCBIBioSampleSubmissionXML(amiaBioSampleSubmission);
+
+    BioSampleValidate bioSampleValidate = new BioSampleValidate();
   }
 
   private static void generateNCBIBioSampleSubmissionXML(AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
@@ -169,7 +172,7 @@ public class CEDARInstance2BioSampleSubmissionXML
     attribute.setAttributeName("tissue");
     attribute.setValue(amiaBioSampleSubmission.getTissue().getValueLabel());
 
-    for (OptionalAttribute optionalAttribute: amiaBioSampleSubmission.getOptionalAttribute()) {
+    for (OptionalAttribute optionalAttribute : amiaBioSampleSubmission.getOptionalAttribute()) {
       attribute = objectFactory.createTypeAttribute();
       attributes.getAttribute().add(attribute);
       attribute.setAttributeName(optionalAttribute.getName().getValue());
