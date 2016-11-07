@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <BioSampleValidate>
-  <Action status="processed-error" action_id="SUB123456-1" target_db="BioSample">
-    <Response status="processed-error">
-      <Message error_code="15" severity="error-stop" error_source="data">Sample has missing mandatory attribute(s). If you do not have information for the required field(s), please provide value as either 'not collected', 'not applicable' or 'missing'.</Message>
+
+  <Action status="processed-ok" action_id="SUB123456-1" target_db="BioSample">
+
+    <Response status="processed-ok">
+      <Message error_code="32" severity="warning" error_source="data">Provided taxonomy information was revised according to NCBI Taxonomy database rules. Please contact biosamplehelp@ncbi.nlm.nih.gov if you have any questions.</Message>
       <Object target_db="BioSample" object_id="" spuid="Martin's Sample" spuid_namespace="CEDAR">
         <Details>
-          <Attributes>
-            <Attribute attribute_name="biomaterial_provider" display_name="biomaterial provider" harmonized_name="biomaterial_provider" status="missing"></Attribute>
-          </Attributes>
+          <Organism taxonomy_id="9606" taxonomy_name="Homo sapiens">
+            <OrganismName>Human</OrganismName>
+          </Organism>
         </Details>
       </Object>
     </Response>
+    
   </Action>
+  
 </BioSampleValidate>
-

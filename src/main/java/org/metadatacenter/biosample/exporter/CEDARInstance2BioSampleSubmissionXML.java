@@ -6,12 +6,14 @@ import common.sp.TypeOrganism;
 import common.sp.TypePrimaryId;
 import common.sp.TypeRefId;
 import generated.BioSampleValidate;
+import generated.TypeActionStatus;
 import generated.TypeAttribute;
 import generated.TypeBioSample;
 import generated.TypeBioSampleIdentifier;
 import generated.TypeContactInfo;
 import generated.TypeName;
 import generated.TypeOrganization;
+import generated.TypeStatus;
 import generated.TypeSubmission;
 
 import javax.xml.bind.JAXBContext;
@@ -24,7 +26,9 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 public class CEDARInstance2BioSampleSubmissionXML
 {
@@ -43,10 +47,34 @@ public class CEDARInstance2BioSampleSubmissionXML
 
     generateNCBIBioSampleSubmissionXML(amiaBioSampleSubmission);
 
-    File bioSampleValidatorResponseXMLFile = new File(CEDARInstance2BioSampleSubmissionXML.class.getClassLoader()
-      .getResource("./xml/BioSampleValidatorResponse1.xml").getFile());
+    File bioSampleValidatorResponseXMLFile = new File(
+      CEDARInstance2BioSampleSubmissionXML.class.getClassLoader().getResource("./xml/BioSampleValidatorResponse1.xml")
+        .getFile());
 
-    BioSampleValidate s = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller.unmarshal(bioSampleValidatorResponseXMLFile);
+    BioSampleValidate bioSampleValidationResponse = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller
+      .unmarshal(bioSampleValidatorResponseXMLFile);
+
+    CEDARBioSampleValidationResponse response = new CEDARBioSampleValidationResponse();
+    List<String> messages = new ArrayList<>();
+    response.setMessages(messages);
+
+    List<TypeActionStatus> actionStatuses = bioSampleValidationResponse.getAction();
+    if (!actionStatuses.isEmpty()) {
+      TypeActionStatus actionStatus = actionStatuses.get(0);
+      TypeStatus status = actionStatus.getStatus();
+      if (status == TypeStatus.PROCESSED_OK)
+        response.setIsValid(true);
+      else
+        response.setIsValid(false);
+
+      // Even if validation passes there can be warning messages
+      List<TypeActionStatus.Response> statusResponses = actionStatus.getResponse();
+      for (TypeActionStatus.Response statusResponse : statusResponses) {
+        String message = statusResponse.getMessage().getValue();
+        messages.add(message);
+      }
+    }
+
   }
 
   private static void generateNCBIBioSampleSubmissionXML(AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
