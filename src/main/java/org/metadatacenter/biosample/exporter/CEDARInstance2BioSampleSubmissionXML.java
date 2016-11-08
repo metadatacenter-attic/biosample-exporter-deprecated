@@ -22,7 +22,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -34,7 +33,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
+import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -86,13 +85,22 @@ public class CEDARInstance2BioSampleSubmissionXML
     try {
       if (response.getStatusLine().getStatusCode() == 200) {
         HttpEntity entity = response.getEntity();
-        String xmlResponse = EntityUtils.toString(entity);
+        //String xmlResponse = EntityUtils.toString(entity);
+        InputStream xmlResponse = entity.getContent();
         return bioSampleXMLResponse2BioSampleValidate(xmlResponse);
       } else
         return null; // TODO
     } finally {
       response.close();
     }
+  }
+
+  private static BioSampleValidate bioSampleXMLResponse2BioSampleValidate(InputStream xmlResponse) throws JAXBException
+  {
+    JAXBContext jaxbBioSampleValidateContext = JAXBContext.newInstance(BioSampleValidate.class);
+    Unmarshaller jaxbBioSampleValidateUnmarshaller = jaxbBioSampleValidateContext.createUnmarshaller();
+    BioSampleValidate bioSampleValidate = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller.unmarshal(xmlResponse);
+    return bioSampleValidate;
   }
 
   private static CEDARBioSampleValidationResponse bioSampleValidationResponse2CEDARValidationResponse(
@@ -119,15 +127,6 @@ public class CEDARInstance2BioSampleSubmissionXML
       }
     }
     return cedarValidationResponse;
-  }
-
-  private static BioSampleValidate bioSampleXMLResponse2BioSampleValidate(String xmlResponse) throws JAXBException
-  {
-    JAXBContext jaxbBioSampleValidateContext = JAXBContext.newInstance(BioSampleValidate.class);
-    Unmarshaller jaxbBioSampleValidateUnmarshaller = jaxbBioSampleValidateContext.createUnmarshaller();
-    BioSampleValidate bioSampleValidate = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller
-      .unmarshal(new StringReader(xmlResponse));
-    return bioSampleValidate;
   }
 
   private static String generateNCBIBioSampleSubmissionXML(AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
