@@ -15,6 +15,14 @@ import generated.TypeName;
 import generated.TypeOrganization;
 import generated.TypeStatus;
 import generated.TypeSubmission;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -26,6 +34,8 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -45,27 +55,61 @@ public class CEDARInstance2BioSampleSubmissionXML
     AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission = mapper
       .readValue(submissionInstanceJSONFile, AMIA2016DemoBioSampleTemplate.class);
 
-    generateNCBIBioSampleSubmissionXML(amiaBioSampleSubmission);
+    BioSampleValidate bioSampleValidationResponse = validateAMIABioSampleSubmission(amiaBioSampleSubmission);
 
-    File bioSampleValidatorResponseXMLFile = new File(
-      CEDARInstance2BioSampleSubmissionXML.class.getClassLoader().getResource("./xml/BioSampleValidatorResponse1.xml")
-        .getFile());
+    CEDARBioSampleValidationResponse s = bioSampleValidationResponse2CEDARValidationResponse(
+      bioSampleValidationResponse);
+  }
 
-    BioSampleValidate bioSampleValidationResponse = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller
-      .unmarshal(bioSampleValidatorResponseXMLFile);
+  //  File bioSampleValidatorResponseXMLFile = new File(
+  //    CEDARInstance2BioSampleSubmissionXML.class.getClassLoader().getResource("./xml/BioSampleValidatorResponse1.xml")
+  //      .getFile());
+  //
+  //  BioSampleValidate bioSampleValidationResponse = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller
+  //    .unmarshal(bioSampleValidatorResponseXMLFile);
 
-    CEDARBioSampleValidationResponse response = new CEDARBioSampleValidationResponse();
+  private static BioSampleValidate validateAMIABioSampleSubmission(
+    AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
+    throws IOException, JAXBException, DatatypeConfigurationException
+  {
+    String url = "https://www.ncbi.nlm.nih.gov/projects/biosample/validate/";
+    CloseableHttpClient client = HttpClientBuilder.create().build();
+    HttpPost post = new HttpPost(url);
+
+    post.setHeader("Accept", "application/xml");
+    post.setHeader("Content-type", "application/xml");
+    String submissionXML = generateNCBIBioSampleSubmissionXML(amiaBioSampleSubmission);
+    StringEntity requestEntity = new StringEntity(submissionXML, ContentType.APPLICATION_XML);
+    post.setEntity(requestEntity);
+
+    CloseableHttpResponse response = client.execute(post);
+    try {
+      if (response.getStatusLine().getStatusCode() == 200) {
+        HttpEntity entity = response.getEntity();
+        String xmlResponse = EntityUtils.toString(entity);
+        return bioSampleXMLResponse2BioSampleValidate(xmlResponse);
+      } else
+        return null; // TODO
+    } finally {
+      response.close();
+    }
+  }
+
+  private static CEDARBioSampleValidationResponse bioSampleValidationResponse2CEDARValidationResponse(
+    BioSampleValidate bioSampleValidationResponse)
+  {
+    CEDARBioSampleValidationResponse cedarValidationResponse = new CEDARBioSampleValidationResponse();
     List<String> messages = new ArrayList<>();
-    response.setMessages(messages);
+    cedarValidationResponse.setMessages(messages);
 
     List<TypeActionStatus> actionStatuses = bioSampleValidationResponse.getAction();
     if (!actionStatuses.isEmpty()) {
       TypeActionStatus actionStatus = actionStatuses.get(0);
       TypeStatus status = actionStatus.getStatus();
       if (status == TypeStatus.PROCESSED_OK)
-        response.setIsValid(true);
+        cedarValidationResponse.setIsValid(true);
       else
-        response.setIsValid(false);
+        cedarValidationResponse.setIsValid(false);
 
       // Even if validation passes there can be warning messages
       List<TypeActionStatus.Response> statusResponses = actionStatus.getResponse();
@@ -74,19 +118,25 @@ public class CEDARInstance2BioSampleSubmissionXML
         messages.add(message);
       }
     }
-
+    return cedarValidationResponse;
   }
 
-  private static void generateNCBIBioSampleSubmissionXML(AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
+  private static BioSampleValidate bioSampleXMLResponse2BioSampleValidate(String xmlResponse) throws JAXBException
+  {
+    JAXBContext jaxbBioSampleValidateContext = JAXBContext.newInstance(BioSampleValidate.class);
+    Unmarshaller jaxbBioSampleValidateUnmarshaller = jaxbBioSampleValidateContext.createUnmarshaller();
+    BioSampleValidate bioSampleValidate = (BioSampleValidate)jaxbBioSampleValidateUnmarshaller
+      .unmarshal(new StringReader(xmlResponse));
+    return bioSampleValidate;
+  }
+
+  private static String generateNCBIBioSampleSubmissionXML(AMIA2016DemoBioSampleTemplate amiaBioSampleSubmission)
     throws DatatypeConfigurationException, JAXBException
   {
     generated.ObjectFactory objectFactory = new generated.ObjectFactory();
     common.sp.ObjectFactory spCommonObjectFactory = new common.sp.ObjectFactory();
 
     TypeSubmission xmlSubmission = objectFactory.createTypeSubmission();
-    // schema_version="2.0"
-    // xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    // xsi:noNamespaceSchemaLocation="http://www.ncbi.nlm.nih.gov/viewvc/v1/trunk/submit/public-docs/common/submission.xsd?view=co"
 
     // Submission/Description/Comment
     TypeSubmission.Description description = objectFactory.createTypeSubmissionDescription();
@@ -214,13 +264,15 @@ public class CEDARInstance2BioSampleSubmissionXML
       attribute.setAttributeName(optionalAttribute.getName().getValue());
       attribute.setValue(optionalAttribute.getValue().getValue());
     }
-
+    StringWriter writer = new StringWriter();
     JAXBElement<TypeSubmission> submissionRoot = objectFactory.createSubmission(xmlSubmission);
-
     JAXBContext ctx = JAXBContext.newInstance(TypeSubmission.class);
     Marshaller marshaller = ctx.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     marshaller.marshal(submissionRoot, System.out);
+    marshaller.marshal(submissionRoot, writer);
+
+    return writer.toString();
   }
 
   private static XMLGregorianCalendar createXMLGregorianCalendar(String date) throws DatatypeConfigurationException

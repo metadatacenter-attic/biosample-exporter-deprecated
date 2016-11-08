@@ -18,7 +18,7 @@
     "organism": {
         "@type": "http://data.bioontology.org/ontologies/NCBITAXON/classes/http%3A%2F%2Fpurl.bioontology.org%2Fontology%2FSTY%2FT001",
         "@value": "http://purl.bioontology.org/ontology/STY/T016",
-        "_valueLabel": "Human"
+        "_valueLabel": "Homo sapiens"
     },
     "isolate": {
         "@value": "IS010"
