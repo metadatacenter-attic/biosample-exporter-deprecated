@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
   <xs:import schemaLocation="biosample.xsd"/>
-  <!-- Main Submission XML. Modified to hard code BioSample.xsd as the submission data in the Action/AddData/Data/XMLContent
-       element.
+  <!-- Main Submission XML from NCBI web site.
+       NOTE: Modified to hard code BioSample.xsd as the submission data in the Action/AddData/Data/XMLContent element.
   -->
   <xs:element name="Submission" type="typeSubmission">
   </xs:element>
