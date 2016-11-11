@@ -9,7 +9,7 @@
   
   <groupId>org.metadatacenter</groupId>
   <artifactId>biosample-exporter</artifactId>
-  <version>0.8.5-SNAPSHOT</version>
+  <version>0.8.5</version>
   <packaging>jar</packaging>
   <name>Project that generates BioSample XML submissions from CEDAR BioSample template instances</name>
 
