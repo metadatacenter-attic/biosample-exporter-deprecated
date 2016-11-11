@@ -429,7 +429,7 @@
           <xs:sequence>
 
             <!-- Hard code BioSample XML Schema here -->
-            <xs:element name="BioSample" type="typeBioSample"/>
+            <xs:element name="BioSample" type="biosample:typeBioSample"/>
 
           </xs:sequence>
         </xs:complexType>          
