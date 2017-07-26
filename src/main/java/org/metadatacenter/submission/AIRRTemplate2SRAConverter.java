@@ -5,16 +5,11 @@ import biosample.TypeBioSample;
 import biosample.TypeBioSampleIdentifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.sp.TypeDescriptor;
-import common.sp.TypePrimaryId;
-import common.sp.TypeRefId;
-import generated.TypeFileAttribute;
-import generated.TypeSubmission;
+import generated.*;
 import org.metadatacenter.submission.biosample.AIRRTemplate;
 import org.metadatacenter.submission.biosample.BioSampleOptionalAttribute;
-import org.metadatacenter.submission.biosample.DesignDescription;
 import org.metadatacenter.submission.biosample.FileName;
 import org.metadatacenter.submission.biosample.FileType;
-import org.metadatacenter.submission.biosample.InstrumentModel;
 import org.metadatacenter.submission.biosample.NCBIBioProject;
 import org.metadatacenter.submission.biosample.NCBIBioSample;
 import org.metadatacenter.submission.biosample.NCBISRA;
@@ -30,7 +25,10 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.UUID;
 
 // TODO Very brittle. Need to do a lot more testing for empty values
 
@@ -39,6 +37,9 @@ import java.util.GregorianCalendar;
  */
 public class AIRRTemplate2SRAConverter
 {
+  private List<String> bioSampleIds = new ArrayList<>();
+  private List<String> sraIds = new ArrayList<>();
+
   public static void main(String[] argc) throws IOException, JAXBException, DatatypeConfigurationException
   {
     ObjectMapper mapper = new ObjectMapper();
@@ -75,187 +76,236 @@ public class AIRRTemplate2SRAConverter
     NCBIBioProject ncbiBioProject = airrInstance.getNCBIBioProject();
 
     // BioProject ID
-    ncbiBioProject.setBioProjectId(ncbiBioProject.getBioProjectId()); //BioProject ID
+//    ncbiBioProject.setBioProjectId(ncbiBioProject.getBioProjectId()); //BioProject ID
 
     // Project Title
-    ncbiBioProject.setProjectDataType(ncbiBioProject.getProjectDataType()); // project title
+//    ncbiBioProject.setProjectDataType(ncbiBioProject.getProjectDataType()); // project title
 
     // Submission/Description/public description
-    ncbiBioProject.setPublicDescription(ncbiBioProject.getPublicDescription());  // public description
+//    ncbiBioProject.setPublicDescription(ncbiBioProject.getPublicDescription());  // public description
 
     // Submission/Description/project data type
-    ncbiBioProject.setProjectDataType(ncbiBioProject.getProjectDataType()); // proejct data type
+//    ncbiBioProject.setProjectDataType(ncbiBioProject.getProjectDataType()); // proejct data type
 
     // Submission/Description/sample scope
-    ncbiBioProject.setSampleScope(ncbiBioProject.getSampleScope()); // proejct sample scope
+//    ncbiBioProject.setSampleScope(ncbiBioProject.getSampleScope()); // proejct sample scope
 
     // Submission/Description/Organization/ContactInfo/Name
 
-    ncbiBioProject.setFirstName(ncbiBioProject.getFirstName()); // first name
-    ncbiBioProject.setLastName(ncbiBioProject.getLastName()); // last name
+//    ncbiBioProject.setFirstName(ncbiBioProject.getFirstName()); // first name
+//    ncbiBioProject.setLastName(ncbiBioProject.getLastName()); // last name
 
     // Submission/Description/Organization/ContactInfo/email
-    ncbiBioProject.setEmail(ncbiBioProject.getEmail()); // e-mail
+//    ncbiBioProject.setEmail(ncbiBioProject.getEmail()); // e-mail
 
     // Submission/Description/Organization/Name
     // Submission/Description/Organization
-    ncbiBioProject.setSubmittingOrganization(ncbiBioProject.getSubmittingOrganization()); // Submitting Organization
+//    ncbiBioProject.setSubmittingOrganization(ncbiBioProject.getSubmittingOrganization()); // Submitting Organization
 
     // Submission/Description/Department/Name
-    ncbiBioProject.setDepartment(ncbiBioProject.getDepartment()); // Submitting Organization // department
+//    ncbiBioProject.setDepartment(ncbiBioProject.getDepartment()); // Submitting Organization // department
 
-    // Submission/Action[1] - BioSample
-    TypeSubmission.Action bioSampleAction = objectFactory.createTypeSubmissionAction();
-    xmlSubmission.getAction().add(bioSampleAction);
-
-    // Submission/Action[1]/AddData/target_db
-    TypeSubmission.Action.AddData addData = objectFactory.createTypeSubmissionActionAddData();
-    bioSampleAction.setAddData(addData);
-    addData.setTargetDb("BioSample");
-
-    // Submission/Action[1]/AddData/Data/content_type
-    TypeSubmission.Action.AddData.Data data = objectFactory.createTypeSubmissionActionAddDataData();
-    addData.getData().add(data);
-    data.setContentType("XML");
-
-    // Submission/Action[1]/AddData/Data/XMLContent
-    TypeSubmission.Action.AddData.Data.XmlContent xmlContent = objectFactory.createTypeInlineDataXmlContent();
-    data.setXmlContent(xmlContent);
-
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/schema_version
-    TypeBioSample bioSample = bioSampleObjectFactory.createTypeBioSample();
-    xmlContent.setBioSample(bioSample);
-    bioSample.setSchemaVersion("2.0");
-
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/SampleID
-    TypeBioSampleIdentifier sampleID = bioSampleObjectFactory.createTypeBioSampleIdentifier();
-    bioSample.setSampleId(sampleID);
-
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/SampleID/SPUID
-    TypeBioSampleIdentifier.SPUID spuid = bioSampleObjectFactory.createTypeBioSampleIdentifierSPUID();
-    sampleID.getSPUID().add(spuid);
-    spuid.setSpuidNamespace("CEDAR-NCBI");
-    spuid.setValue(ncbiBioProject.getBioProjectId().getValue());
-
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Descriptor
-    TypeDescriptor descriptor = spCommonObjectFactory.createTypeDescriptor();
-    bioSample.setDescriptor(descriptor);
-    descriptor.setTitle("CEDAR-NCBI Example instance of mythania gravis study"); // TODO Where from?
-
-    TypeRefId bioProject = spCommonObjectFactory.createTypeRefId();
-    bioSample.getBioProject().add(bioProject);
-
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/BioProject/PrimaryID
-    TypePrimaryId bioProjectPrimaryID = spCommonObjectFactory.createTypePrimaryId();
-    bioProject.setPrimaryId(bioProjectPrimaryID);
-    bioProjectPrimaryID.setDb("BioProject");
-    bioProjectPrimaryID.setValue(ncbiBioProject.getBioProjectId().getValue());
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Package
-    bioSample
-      .setPackage("Human.1.0"); // TODO Is this hard coded for AIRR? //Could be get from datatype part of bioproject
-
-    //RE-CHECK LOOPS VARIABLES
-    // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes
-    TypeBioSample.Attributes bioSampleAttributes = bioSampleObjectFactory.createTypeBioSampleAttributes();
-    bioSample.setAttributes(bioSampleAttributes);
     for (NCBIBioSample ncbiBioSample : airrInstance.getNCBIBioSample()) {
+
+      // Submission/Action[1] - BioSample
+      TypeSubmission.Action bioSampleAction = objectFactory.createTypeSubmissionAction();
+      xmlSubmission.getAction().add(bioSampleAction);
+
+      // Submission/Action[1]/AddData/target_db
+      TypeSubmission.Action.AddData addData = objectFactory.createTypeSubmissionActionAddData();
+      bioSampleAction.setAddData(addData);
+      addData.setTargetDb("BioSample");
+
+      // Submission/Action[1]/AddData/Data/content_type
+      TypeSubmission.Action.AddData.Data data = objectFactory.createTypeSubmissionActionAddDataData();
+      addData.getData().add(data);
+      data.setContentType("XML");
+
+      // Submission/Action[1]/AddData/Data/XMLContent
+      TypeSubmission.Action.AddData.Data.XmlContent xmlContent = objectFactory.createTypeInlineDataXmlContent();
+      data.setXmlContent(xmlContent);
+
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/schema_version
+      TypeBioSample bioSample = bioSampleObjectFactory.createTypeBioSample();
+      xmlContent.setBioSample(bioSample);
+      bioSample.setSchemaVersion("2.0");
+
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/SampleID
+      TypeBioSampleIdentifier sampleID = bioSampleObjectFactory.createTypeBioSampleIdentifier();
+      bioSample.setSampleId(sampleID);
+
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/SampleID/SPUID
+      TypeBioSampleIdentifier.SPUID spuid = bioSampleObjectFactory.createTypeBioSampleIdentifierSPUID();
+      sampleID.getSPUID().add(spuid);
+      spuid.setSpuidNamespace("CEDAR");
+      spuid.setValue(createNewBioSampleId());
+
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Descriptor
+      TypeDescriptor descriptor = spCommonObjectFactory.createTypeDescriptor();
+      bioSample.setDescriptor(descriptor);
+      descriptor.setTitle("CEDAR-NCBI Example instance of mythania gravis study"); // TODO Where from?
+
+      // XXX: The <BioProject> tag is unknown to the working submission example
+//      TypeRefId bioProject = spCommonObjectFactory.createTypeRefId();
+//      bioSample.getBioProject().add(bioProject);
+
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/BioProject/PrimaryID
+//      TypePrimaryId bioProjectPrimaryID = spCommonObjectFactory.createTypePrimaryId();
+//      bioProject.setPrimaryId(bioProjectPrimaryID);
+//      bioProjectPrimaryID.setDb("BioProject");
+//      bioProjectPrimaryID.setValue(ncbiBioProject.getBioProjectId().getValue());
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Package
+      bioSample
+        .setPackage("Human.1.0"); // TODO Is this hard coded for AIRR? //Could be get from datatype part of bioproject
+
+      //RE-CHECK LOOPS VARIABLES
+      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes
+      TypeBioSample.Attributes bioSampleAttributes = bioSampleObjectFactory.createTypeBioSampleAttributes();
+      bioSample.setAttributes(bioSampleAttributes);
 
       // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes/Attribute - AIRR BioSample attributes
 
       // New add
-      TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("projectedReleaseDate");
-      attribute.setValue(ncbiBioSample.getReleaseDate().getValue());
+      String value = ncbiBioSample.getReleaseDate().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("projectedReleaseDate");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
       // New add
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("sampleType");
-      attribute.setValue(ncbiBioSample.getSampleType().getValue());
+      value = ncbiBioSample.getSampleType().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("sampleType");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
       // New add
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("sampleName");
-      attribute.setValue(ncbiBioSample.getSampleName().getValue());
-
+      value = ncbiBioSample.getSampleName().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("sampleName");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
       // new add
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("isolate");
-      attribute.setValue(ncbiBioSample.getIsolate().getValue());
-
+      value = ncbiBioSample.getIsolate().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("isolate");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
       // New add
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("organism");
-      attribute.setValue(ncbiBioSample.getOrganism().getValueLabel());
+      value = ncbiBioSample.getOrganism().getValueLabel();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("organism");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("age");
-      attribute.setValue(ncbiBioSample.getAge().getValue());
+      value = ncbiBioSample.getAge().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("age");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("biomaterialProvider");
-      attribute.setValue(ncbiBioSample.getBiomaterialProvider().getValue());
+      value = ncbiBioSample.getBiomaterialProvider().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("biomaterialProvider");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("sex");
-      attribute.setValue(ncbiBioSample.getSex().getValue());
+      value = ncbiBioSample.getSex().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("sex");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("tissue");
-      attribute.setValue(ncbiBioSample.getTissue().getValueLabel());
-
-      //Added new
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("phenotype");
-      attribute.setValue(ncbiBioSample.getPhenotype().getValue());
-
-      //Added new
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("cellType");
-      attribute.setValue(ncbiBioSample.getCellType().getValueLabel());
-
-      //Added new
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("cellSubType");
-      attribute.setValue(ncbiBioSample.getCellSubtype().getValueLabel());
+      value = ncbiBioSample.getTissue().getValueLabel();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("tissue");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
       //Added new
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("disease");
-      attribute.setValue(ncbiBioSample.getDisease().getValueLabel());
+      value = ncbiBioSample.getPhenotype().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("phenotype");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
+
+      //Added new
+      value = ncbiBioSample.getCellType().getValueLabel();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("cellType");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
+
+      //Added new
+      value = ncbiBioSample.getCellSubtype().getValueLabel();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("cellSubType");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
+
+      //Added new
+      value = ncbiBioSample.getDisease().getValueLabel();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("disease");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
       // new add
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("diseaseStage");
-      attribute.setValue(ncbiBioSample.getDiseaseStage().getValue());
+      value = ncbiBioSample.getDiseaseStage().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("diseaseStage");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
       // new add
-      attribute = bioSampleObjectFactory.createTypeAttribute();
-      bioSampleAttributes.getAttribute().add(attribute);
-      attribute.setAttributeName("healthState");
-      attribute.setValue(ncbiBioSample.getHealthState().getValue());
+      value = ncbiBioSample.getHealthState().getValue();
+      if (value != null) {
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
+        attribute.setAttributeName("healthState");
+        attribute.setValue(value);
+        bioSampleAttributes.getAttribute().add(attribute);
+      }
 
       //RE-CHECK LOOPS VARIABLES
 
       for (BioSampleOptionalAttribute optionalAttribute : ncbiBioSample.getBioSampleOptionalAttributes()) {
-        attribute = bioSampleObjectFactory.createTypeAttribute();
-        bioSampleAttributes.getAttribute().add(attribute);
+        TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
         attribute.setAttributeName(optionalAttribute.getName().getValue());
         attribute.setValue(optionalAttribute.getValue().getValue());
+        bioSampleAttributes.getAttribute().add(attribute);
       }
     }
 
     //RE-CHECK LOOPS VARIABLES
+    int sraIndex = 0; // to track the corresponding BioSample record for this SRA entry
     for (NCBISRA ncbiSRA : airrInstance.getNCBISRA()) {
 
       // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes
@@ -271,64 +321,92 @@ public class AIRRTemplate2SRAConverter
       sraAddFiles.setTargetDb("SRA");
       // TODO Set attribute CDE ID?
 
+      // XXX: No information about file attachment in the instance
       // Submission/Action[2]/AddFiles/File
-      TypeSubmission.Action.AddFiles.File sraFile = objectFactory.createTypeSubmissionActionAddFilesFile();
-      sraAddFiles.getFile().add(sraFile);
+//      TypeSubmission.Action.AddFiles.File sraFile = objectFactory.createTypeSubmissionActionAddFilesFile();
+//      if (sraFile != null) {
+//        sraAddFiles.getFile().add(sraFile);
+//      }
 
       // Submission/Action[1]/AddFiles/Attributes/Attribute - AIRR SRA attributes
-      TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("sampleName");
-      fileAttribute.setValue(ncbiSRA.getSampleName().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      String value = ncbiSRA.getSampleName().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("sampleName");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute.setName("libraryID");
-      fileAttribute.setValue(ncbiSRA.getLibraryId().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getLibraryId().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("libraryID");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("libraryTitle");
-      fileAttribute.setValue(ncbiSRA.getLibraryTitle().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getLibraryTitle().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("libraryTitle");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("libraryStrategy");
-      fileAttribute.setValue(ncbiSRA.getLibraryStrategy().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getLibraryStrategy().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("libraryStrategy");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("librarySource");
-      fileAttribute.setValue(ncbiSRA.getLibrarySource().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getLibrarySource().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("librarySource");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("librarySelection");
-      fileAttribute.setValue(ncbiSRA.getLibrarySelection().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getLibrarySelection().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("librarySelection");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("libraryLayout");
-      fileAttribute.setValue(ncbiSRA.getLibraryLayout().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getLibraryLayout().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("libraryLayout");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("platform");
-      fileAttribute.setValue(ncbiSRA.getPlatform().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      value = ncbiSRA.getPlatform().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("platform");
+        fileAttribute.setValue(value);
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
-      InstrumentModel instrumentModel = ncbiSRA.getInstrumentModel();
-      if (instrumentModel != null) {
-        fileAttribute = objectFactory.createTypeFileAttribute();
+      value = ncbiSRA.getInstrumentModel().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
         fileAttribute.setName("instrumentModel");
-        fileAttribute.setValue(instrumentModel.getValue());
+        fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
       }
 
       //new added
-      DesignDescription designDescription = ncbiSRA.getDesignDescription();
-      if (designDescription != null) {
-        fileAttribute = objectFactory.createTypeFileAttribute();
+      value = ncbiSRA.getDesignDescription().getValue();
+      if (value != null) {
+        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
         fileAttribute.setName("designDescription");
-        fileAttribute.setValue(designDescription.getValue());
+        fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
       }
       // File name and type (multiple) new added
@@ -337,7 +415,7 @@ public class AIRRTemplate2SRAConverter
 
         FileType fileType = sraOptionalAttribute.getFileType();
         if (fileType != null) {
-          fileAttribute = objectFactory.createTypeFileAttribute();
+          TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
           fileAttribute.setName("FileType");
           fileAttribute.setValue(fileType.getValue());
           sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -345,12 +423,49 @@ public class AIRRTemplate2SRAConverter
 
         FileName fileName = sraOptionalAttribute.getFileName();
         if (fileName != null) {
-          fileAttribute = objectFactory.createTypeFileAttribute();
+          TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
           fileAttribute.setName("FileName");
           fileAttribute.setValue(fileName.getValue());
           sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
         }
       }
+
+      // BioProject Reference ID
+      TypeSPUID bioProjectSpuid = objectFactory.createTypeSPUID();
+      bioProjectSpuid.setSpuidNamespace("CEDAR");
+      bioProjectSpuid.setValue(ncbiBioProject.getBioProjectId().getValue());
+
+      TypeRefId bioProjectRefId = objectFactory.createTypeRefId();
+      bioProjectRefId.setSPUID(bioProjectSpuid);
+
+      TypeFileAttributeRefId bioProjectIdentifier = objectFactory.createTypeFileAttributeRefId();
+      bioProjectIdentifier.setName("BioProject");
+      bioProjectIdentifier.setRefId(bioProjectRefId);
+      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(bioProjectIdentifier);
+
+      // BioSample Reference ID
+      TypeSPUID bioSampleSpuid = objectFactory.createTypeSPUID();
+      bioSampleSpuid.setSpuidNamespace("CEDAR");
+      bioSampleSpuid.setValue(getBioSampleId(sraIndex));
+
+      TypeRefId bioSampleRefId = objectFactory.createTypeRefId();
+      bioSampleRefId.setSPUID(bioSampleSpuid);
+
+      TypeFileAttributeRefId bioSampleIdentifier = objectFactory.createTypeFileAttributeRefId();
+      bioSampleIdentifier.setName("BioSample");
+      bioSampleIdentifier.setRefId(bioSampleRefId);
+      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(bioSampleIdentifier);
+
+      // SRA ID
+      TypeLocalId localSraId = objectFactory.createTypeLocalId();
+      localSraId.setValue(createNewSraId());
+
+      TypeIdentifier sraIdentifier = objectFactory.createTypeIdentifier();
+      sraIdentifier.setLocalId(localSraId);
+
+      sraAddFiles.setIdentifier(sraIdentifier);
+
+      sraIndex++; // increment the index counter
     }
 
     StringWriter writer = new StringWriter();
@@ -365,11 +480,30 @@ public class AIRRTemplate2SRAConverter
     return writer.toString();
   }
 
-  private XMLGregorianCalendar createXMLGregorianCalendar(String date) throws DatatypeConfigurationException
-  {
+  private XMLGregorianCalendar createXMLGregorianCalendar(String date) throws DatatypeConfigurationException {
     DatatypeFactory datatypeFactory = DatatypeFactory.newInstance();
     GregorianCalendar gc = new GregorianCalendar();
 
     return datatypeFactory.newXMLGregorianCalendar(gc);
+  }
+
+  private String createNewBioSampleId() {
+    String id = "BioSample-" + UUID.randomUUID();
+    bioSampleIds.add(id);
+    return id;
+  }
+
+  private String createNewSraId() {
+    String id = "SRA-" + UUID.randomUUID();
+    sraIds.add(id);
+    return id;
+  }
+
+  private String getBioSampleId(int index) {
+    return bioSampleIds.get(index);
+  }
+
+  private String getSraId(int index) {
+    return sraIds.get(index);
   }
 }
