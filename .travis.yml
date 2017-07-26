@@ -3,13 +3,15 @@ jdk:
 - oraclejdk8
 branches:
   only:
+  - master
   - develop
 notifications:
   slack:
-    on_success: change
-    on_failure: always
-install: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -DskipTests=false clean deploy --settings .m2/travis-settings.xml'
-script: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -DskipTests=true clean --settings .m2/travis-settings.xml'
+    secure: rxAjsrz1NWNIa5JrcLbssU3mstNX+voMtWWjmQXdgu7j/JGT94Fz+Oiru38C6ifpIn8+DNEQT9KJH898jPSNqwBcUQAEidUdL4/UuU7jXTg/SKzHDVGMgghnTQasnhwlXTQFwJ5F1VECn5e2ebNbZHsnmDrGpkeTyT5OLFKj3gtER8DWio8/6t0sI5AdMinVo4XkL6ZEmouIj75rGBf3NrUwFJ4rGyjF/nItjgT1S55zoDPZ8UQdTx9i8/Wqz+OPIR4OaW91EajtFcfGsZxJcUpVuFnaOpBuVc7Ip/FaTsXbV3mdXJcpn9Wwu7wFFTkzzZPI/0XpQDcum+rGUdEYmwDpn87x2bT1TY0pSCrL7fXJSsCUAnFHYNCTknErYxQzz9HVB12f4JyX/GdbdYDdvl4OTj+qvZ7newk/WmCWgK1O5ExgdqZpXz8uzAnGgCNW/TB48eIhryZ48Ha0PfzBAQY7lB4f7ZD1UcJtZe18RJxkqz8SKbnWPBevlBU+lbkG1fE1mmNJ5RMjrtOo80irXAQW3mD9cm3gzAMmyIWlxlUvbxWaVkjq+NvQi8Ki+5qlO7EnrYdknrzJ5Nf7V9FCKTsIlvU5buOVXz6/G70qFvB7NOHbpfH/BzjAitz6ShhzloVoPiMKOcBBHpSG5Z5XRqyEJtIZb/7h6y2k2lai+WQ=
+install: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -DskipTests=false clean deploy
+  --settings .m2/travis-settings.xml'
+script: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -DskipTests=true clean --settings
+  .m2/travis-settings.xml'
 env:
   global:
   - secure: OQtCtnNr+v5zVqRDBN5ya33nidP11Yl/csn3xysCTHejjF3N337FFHrlwDTkVDiFuZhgYVk3IKbsWK5I1wJ0H0oDobc3zsxqppYAXM4IztV2DCpmy3h8P87I3aQquOybVF4asBhdRkPwo5YjOfc0/Wgb7Fb4kOVvWLyPH1dr9UvkR+Ldted0hfviMXI9nUFS2YanzMC3C+HnARR8SqrTJnI+Q1FppjBZdWcJKfm5jp70eydsd4EJZZ7B82ki47jTxUaOz8+cWUIOpwfiyTPTbXDrjAmA57JPk1xIvbbs8s8sl5EEWN2U/DV9g9RIyxCEnxCCJ5p5K275mvfV1QWYfYKlOCcEN+UjMUtJrXnPCpo6AVWO2Xk2dRU7/52DKZOQyA/GbKA6mxZkNhvn3CXX2Oy49xJuOPMbvBvw4TcBfoyCmcYEi+H5D40ZzlAuc7yTuruiD8b3DElKjQL6+LxU8i6voeE1b0ZZSgFDn8/fgBGXx/DPpfI5NUABFIeO6Fce+ajEVWYzumSBucahZ6abd0zCddUHbykwpJffPehVm0KGVEjQr/m65w9MqBuAOvNLy9T+abhk9WPKJvwhAO4CaJsRz8ZEvmDh1LwThBWRfRWaF8LyPsBD+q2zWbMVLTjlNy0X56Aula0eSqKhGe5wmgusdAef9kBRsHhwgemFuxY=
