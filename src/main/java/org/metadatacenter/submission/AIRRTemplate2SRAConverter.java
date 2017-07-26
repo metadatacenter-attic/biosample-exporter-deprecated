@@ -11,6 +11,10 @@ import generated.TypeFileAttribute;
 import generated.TypeSubmission;
 import org.metadatacenter.submission.biosample.AIRRTemplate;
 import org.metadatacenter.submission.biosample.BioSampleOptionalAttribute;
+import org.metadatacenter.submission.biosample.DesignDescription;
+import org.metadatacenter.submission.biosample.FileName;
+import org.metadatacenter.submission.biosample.FileType;
+import org.metadatacenter.submission.biosample.InstrumentModel;
 import org.metadatacenter.submission.biosample.NCBIBioProject;
 import org.metadatacenter.submission.biosample.NCBIBioSample;
 import org.metadatacenter.submission.biosample.NCBISRA;
@@ -27,6 +31,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.GregorianCalendar;
+
+// TODO Very brittle. Need to do a lot more testing for empty values
 
 /**
  * Convert a CEDAR JSON Schema-based AIRR template instance into a BioProject/BioSample/SRA XML-based submission.
@@ -309,29 +315,41 @@ public class AIRRTemplate2SRAConverter
       fileAttribute.setValue(ncbiSRA.getPlatform().getValue());
       sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
 
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("instrumentModel");
-      fileAttribute.setValue(ncbiSRA.getInstrumentModel().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      InstrumentModel instrumentModel = ncbiSRA.getInstrumentModel();
+      if (instrumentModel != null) {
+        fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("instrumentModel");
+        fileAttribute.setValue(instrumentModel.getValue());
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
 
       //new added
-      fileAttribute = objectFactory.createTypeFileAttribute();
-      fileAttribute.setName("designDescription");
-      fileAttribute.setValue(ncbiSRA.getDesignDescription().getValue());
-      sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      DesignDescription designDescription = ncbiSRA.getDesignDescription();
+      if (designDescription != null) {
+        fileAttribute = objectFactory.createTypeFileAttribute();
+        fileAttribute.setName("designDescription");
+        fileAttribute.setValue(designDescription.getValue());
+        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+      }
       // File name and type (multiple) new added
       //RE-CHECK LOOPS VARIABLES
       for (SRAOptionalAttribute sraOptionalAttribute : ncbiSRA.getSRAOptionalAttributes()) {
 
-        fileAttribute = objectFactory.createTypeFileAttribute();
-        fileAttribute.setName("FileType");
-        fileAttribute.setValue(sraOptionalAttribute.getFileType().getValue());
-        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+        FileType fileType = sraOptionalAttribute.getFileType();
+        if (fileType != null) {
+          fileAttribute = objectFactory.createTypeFileAttribute();
+          fileAttribute.setName("FileType");
+          fileAttribute.setValue(fileType.getValue());
+          sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+        }
 
-        fileAttribute = objectFactory.createTypeFileAttribute();
-        fileAttribute.setName("FileName");
-        fileAttribute.setValue(sraOptionalAttribute.getFileName().getValue());
-        sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+        FileName fileName = sraOptionalAttribute.getFileName();
+        if (fileName != null) {
+          fileAttribute = objectFactory.createTypeFileAttribute();
+          fileAttribute.setName("FileName");
+          fileAttribute.setValue(fileName.getValue());
+          sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
+        }
       }
     }
 

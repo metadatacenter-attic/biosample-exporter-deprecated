@@ -871,11 +871,11 @@
     "department": {
       "@value": "School of medicine"
     },
-    "projectDataType": [
+    "projectDataType": 
       {
         "@value": "Raw sequence reads"
       }
-    ],
+    ,
     "sampleScope": {
       "@value": "Multiisolate"
     },
