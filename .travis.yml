@@ -5,12 +5,11 @@ branches:
   only:
   - develop
 notifications:
-  email:
-    recipients:
-    - martin.oconnor@stanford.edu
-    on_success: never
+  slack:
+    on_success: change
     on_failure: always
-install: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -U install --settings .m2/travis-settings.xml'
+install: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -DskipTests=false clean deploy --settings .m2/travis-settings.xml'
+script: '[ ${TRAVIS_PULL_REQUEST} = ''false'' ] && mvn -DskipTests=true clean --settings .m2/travis-settings.xml'
 env:
   global:
   - secure: OQtCtnNr+v5zVqRDBN5ya33nidP11Yl/csn3xysCTHejjF3N337FFHrlwDTkVDiFuZhgYVk3IKbsWK5I1wJ0H0oDobc3zsxqppYAXM4IztV2DCpmy3h8P87I3aQquOybVF4asBhdRkPwo5YjOfc0/Wgb7Fb4kOVvWLyPH1dr9UvkR+Ldted0hfviMXI9nUFS2YanzMC3C+HnARR8SqrTJnI+Q1FppjBZdWcJKfm5jp70eydsd4EJZZ7B82ki47jTxUaOz8+cWUIOpwfiyTPTbXDrjAmA57JPk1xIvbbs8s8sl5EEWN2U/DV9g9RIyxCEnxCCJ5p5K275mvfV1QWYfYKlOCcEN+UjMUtJrXnPCpo6AVWO2Xk2dRU7/52DKZOQyA/GbKA6mxZkNhvn3CXX2Oy49xJuOPMbvBvw4TcBfoyCmcYEi+H5D40ZzlAuc7yTuruiD8b3DElKjQL6+LxU8i6voeE1b0ZZSgFDn8/fgBGXx/DPpfI5NUABFIeO6Fce+ajEVWYzumSBucahZ6abd0zCddUHbykwpJffPehVm0KGVEjQr/m65w9MqBuAOvNLy9T+abhk9WPKJvwhAO4CaJsRz8ZEvmDh1LwThBWRfRWaF8LyPsBD+q2zWbMVLTjlNy0X56Aula0eSqKhGe5wmgusdAef9kBRsHhwgemFuxY=
