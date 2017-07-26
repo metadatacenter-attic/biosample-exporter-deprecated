@@ -77,7 +77,34 @@
         "@value": "Peripheral blood was obtained from HD and MG subjects. B cells subsets were isolated using flow cytometry. Briefly, peripheral B cells from MG patients and healthy donors were first enriched to >95% by positive selection using CD20 magnetic beads (Milteny). The cells were then stained with perCP-Cy5.5 anti–human CD27 (clone O323), Pacific Blue anti-human CD19 (clone HIB19) (both from Biolegend). Naïve (CD19+, CD27-) or memory B cells (CD19+, CD27+) were then sorted on a FACSAria flow cytometer (BD) into PCR tubes and immediately frozen on dry ice. RNA (250 ng) was reverse-transcribed into cDNA using a biotinylated oligo dT primer. An adaptor sequence was added to the 3' end of all cDNA, which contains a universal priming site and a 17-nucleotide unique molecular identifier (UMI). Products were purified using streptavidin-coated magnetic beads followed by a primary PCR reaction using a pool of primers targeting the IGHA, IGHD, IGHE, IGHG, IGHM, IGKC and IGLC regions, as well as a primer against the universal adaptor sequence. The immunoglobulin-specific primers contained tail sequences for later Illumina adaptor addition. PCR products were then purified using AMPure XP beads. A secondary PCR was then performed to add the Illumina P5 adaptor to the constant region end and a sample-indexed P7 adaptor to the universal adaptor end. The number of secondary PCR cycles was tailored to each sample to avoid entering plateau phase, as judged by a prior quantitative PCR analysis. Final products were purified, quantified with a TapeStation (Agilent Genomics) and pooled in equimolar proportions, followed by high-throughput 2x300 base-pair paired-end sequencing with a 20% PhiX spike on the Illumina MiSeq platform according to manufacturer’s recommendations, except for performing 325 cycles for read 1 and 275 cycles for read 2."
       },
       "sRAOptionalAttributes": [
-        {}
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "fileType": "https://schema.metadatacenter.net/properties/fileType",
+            "fileName": "https://schema.metadatacenter.net/properties/fileName"
+          },
+          "fileType": {
+            "@value": "generic-data"
+          },
+          "fileName": {
+            "@value": "file1.fastq"
+          }
+        },
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "fileType": "https://schema.metadatacenter.net/properties/fileType",
+            "fileName": "https://schema.metadatacenter.net/properties/fileName"
+          },
+          "fileType": {
+            "@value": "generic-data"
+          },
+          "fileName": {
+            "@value": "file2.fastq"
+          }
+        }
       ],
       "@id": "https://repo.staging.metadatacenter.net/template-element-instances/0283483c-42c4-4a46-ab13-0bcc97a1feda"
     },
@@ -871,22 +898,20 @@
     "department": {
       "@value": "School of medicine"
     },
-    "projectDataType": 
-      {
-        "@value": "Raw sequence reads"
-      }
-    ,
+    "projectDataType": {
+      "@value": "Raw sequence reads"
+    },
     "sampleScope": {
       "@value": "Multiisolate"
     },
     "@id": "https://repo.staging.metadatacenter.net/template-element-instances/69357fd1-5f65-46ed-b078-2b1f556cdd68"
   },
-  "schema:isBasedOn": "https://repo.staging.metadatacenter.net/templates/13e86c47-4501-4571-aab3-8d7a62778e47",
+  "schema:isBasedOn": "https://repo.staging.metadatacenter.net/templates/c6d247e0-d191-4d59-9163-3190189f7ee5",
   "schema:name": "CEDAR-NCBI metadata",
   "schema:description": "CEDAR to NCBI data submission pipeline",
-  "pav:createdOn": "2017-07-21T17:18:25-0700",
+  "pav:createdOn": "2017-07-26T11:40:48-0700",
   "pav:createdBy": "https://metadatacenter.org/users/e8e7005a-5404-4a2d-8e97-5b0b2cbbf03a",
-  "pav:lastUpdatedOn": "2017-07-21T17:40:32-0700",
+  "pav:lastUpdatedOn": "2017-07-26T11:40:48-0700",
   "oslc:modifiedBy": "https://metadatacenter.org/users/e8e7005a-5404-4a2d-8e97-5b0b2cbbf03a",
-  "@id": "https://repo.staging.metadatacenter.net/template-instances/4caf70d0-82fc-47b1-907c-fed7864f2561"
+  "@id": "https://repo.staging.metadatacenter.net/template-instances/33f888ff-05eb-48d4-9c19-538ce5945bf8"
 }
