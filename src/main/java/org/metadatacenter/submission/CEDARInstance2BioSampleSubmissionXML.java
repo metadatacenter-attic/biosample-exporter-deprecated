@@ -1,4 +1,4 @@
-package org.metadatacenter.biosample.exporter;
+package org.metadatacenter.submission;
 
 import biosample.TypeAttribute;
 import biosample.TypeBioSample;
@@ -22,6 +22,9 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.metadatacenter.submission.biosample.AMIA2016DemoBioSampleTemplate;
+import org.metadatacenter.submission.biosample.CEDARBioSampleValidationResponse;
+import org.metadatacenter.submission.biosample.OptionalAttribute;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;

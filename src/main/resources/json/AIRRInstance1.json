@@ -1,0 +1,892 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "pav": "http://purl.org/pav/",
+    "schema": "http://schema.org/",
+    "oslc": "http://open-services.net/ns/core#",
+    "schema:isBasedOn": {
+      "@type": "@id"
+    },
+    "schema:name": {
+      "@type": "xsd:string"
+    },
+    "schema:description": {
+      "@type": "xsd:string"
+    },
+    "pav:createdOn": {
+      "@type": "xsd:dateTime"
+    },
+    "pav:createdBy": {
+      "@type": "@id"
+    },
+    "pav:lastUpdatedOn": {
+      "@type": "xsd:dateTime"
+    },
+    "oslc:modifiedBy": {
+      "@type": "@id"
+    },
+    "nCBIBioProject": "https://schema.metadatacenter.net/properties/nCBIBioProject",
+    "nCBIBioSample": "https://schema.metadatacenter.net/properties/nCBIBioSample",
+    "nCBISRA": "https://schema.metadatacenter.net/properties/nCBISRA"
+  },
+  "nCBISRA": [
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "libraryId": "https://schema.metadatacenter.net/properties/libraryId",
+        "libraryTitle": "https://schema.metadatacenter.net/properties/libraryTitle",
+        "libraryStrategy": "https://schema.metadatacenter.net/properties/libraryStrategy",
+        "librarySource": "https://schema.metadatacenter.net/properties/librarySource",
+        "librarySelection": "https://schema.metadatacenter.net/properties/librarySelection",
+        "libraryLayout": "https://schema.metadatacenter.net/properties/libraryLayout",
+        "platform": "https://schema.metadatacenter.net/properties/platform",
+        "instrumentModel": "https://schema.metadatacenter.net/properties/instrumentModel",
+        "designDescription": "https://schema.metadatacenter.net/properties/designDescription",
+        "sRAOptionalAttributes": "https://schema.metadatacenter.net/properties/sRAOptionalAttributes"
+      },
+      "sampleName": {
+        "@value": "HD09_U"
+      },
+      "libraryId": {
+        "@value": "HD09_U_A8ALE"
+      },
+      "libraryTitle": {
+        "@value": "HD09_U_A8ALE"
+      },
+      "libraryStrategy": {
+        "@value": "AMPLICON"
+      },
+      "librarySource": {
+        "@value": "TRANSCRIPTOMIC"
+      },
+      "librarySelection": {
+        "@value": "PCR"
+      },
+      "libraryLayout": {
+        "@value": "PAIRED"
+      },
+      "platform": {
+        "@value": null
+      },
+      "instrumentModel": {
+        "@value": "Illumina MiSeq"
+      },
+      "designDescription": {
+        "@value": "Peripheral blood was obtained from HD and MG subjects. B cells subsets were isolated using flow cytometry. Briefly, peripheral B cells from MG patients and healthy donors were first enriched to >95% by positive selection using CD20 magnetic beads (Milteny). The cells were then stained with perCP-Cy5.5 anti–human CD27 (clone O323), Pacific Blue anti-human CD19 (clone HIB19) (both from Biolegend). Naïve (CD19+, CD27-) or memory B cells (CD19+, CD27+) were then sorted on a FACSAria flow cytometer (BD) into PCR tubes and immediately frozen on dry ice. RNA (250 ng) was reverse-transcribed into cDNA using a biotinylated oligo dT primer. An adaptor sequence was added to the 3' end of all cDNA, which contains a universal priming site and a 17-nucleotide unique molecular identifier (UMI). Products were purified using streptavidin-coated magnetic beads followed by a primary PCR reaction using a pool of primers targeting the IGHA, IGHD, IGHE, IGHG, IGHM, IGKC and IGLC regions, as well as a primer against the universal adaptor sequence. The immunoglobulin-specific primers contained tail sequences for later Illumina adaptor addition. PCR products were then purified using AMPure XP beads. A secondary PCR was then performed to add the Illumina P5 adaptor to the constant region end and a sample-indexed P7 adaptor to the universal adaptor end. The number of secondary PCR cycles was tailored to each sample to avoid entering plateau phase, as judged by a prior quantitative PCR analysis. Final products were purified, quantified with a TapeStation (Agilent Genomics) and pooled in equimolar proportions, followed by high-throughput 2x300 base-pair paired-end sequencing with a 20% PhiX spike on the Illumina MiSeq platform according to manufacturer’s recommendations, except for performing 325 cycles for read 1 and 275 cycles for read 2."
+      },
+      "sRAOptionalAttributes": [
+        {}
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/0283483c-42c4-4a46-ab13-0bcc97a1feda"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "libraryId": "https://schema.metadatacenter.net/properties/libraryId",
+        "libraryTitle": "https://schema.metadatacenter.net/properties/libraryTitle",
+        "libraryStrategy": "https://schema.metadatacenter.net/properties/libraryStrategy",
+        "librarySource": "https://schema.metadatacenter.net/properties/librarySource",
+        "librarySelection": "https://schema.metadatacenter.net/properties/librarySelection",
+        "libraryLayout": "https://schema.metadatacenter.net/properties/libraryLayout",
+        "platform": "https://schema.metadatacenter.net/properties/platform",
+        "instrumentModel": "https://schema.metadatacenter.net/properties/instrumentModel",
+        "designDescription": "https://schema.metadatacenter.net/properties/designDescription",
+        "sRAOptionalAttributes": "https://schema.metadatacenter.net/properties/sRAOptionalAttributes"
+      },
+      "sampleName": {
+        "@value": "HD09_N"
+      },
+      "libraryId": {
+        "@value": "HD09_N_A93F3"
+      },
+      "libraryTitle": {
+        "@value": "HD09_U_AB0RF"
+      },
+      "libraryStrategy": {
+        "@value": "AMPLICON"
+      },
+      "librarySource": {
+        "@value": "TRANSCRIPTOMIC"
+      },
+      "librarySelection": {
+        "@value": "PCR"
+      },
+      "libraryLayout": {
+        "@value": "PAIRED"
+      },
+      "platform": {
+        "@value": null
+      },
+      "instrumentModel": {
+        "@value": "Illumina MiSeq"
+      },
+      "designDescription": {
+        "@value": "Peripheral blood was obtained from HD and MG subjects. B cells subsets were isolated using flow cytometry. Briefly, peripheral B cells from MG patients and healthy donors were first enriched to >95% by positive selection using CD20 magnetic beads (Milteny). The cells were then stained with perCP-Cy5.5 anti–human CD27 (clone O323), Pacific Blue anti-human CD19 (clone HIB19) (both from Biolegend). Naïve (CD19+, CD27-) or memory B cells (CD19+, CD27+) were then sorted on a FACSAria flow cytometer (BD) into PCR tubes and immediately frozen on dry ice. RNA (250 ng) was reverse-transcribed into cDNA using a biotinylated oligo dT primer. An adaptor sequence was added to the 3' end of all cDNA, which contains a universal priming site and a 17-nucleotide unique molecular identifier (UMI). Products were purified using streptavidin-coated magnetic beads followed by a primary PCR reaction using a pool of primers targeting the IGHA, IGHD, IGHE, IGHG, IGHM, IGKC and IGLC regions, as well as a primer against the universal adaptor sequence. The immunoglobulin-specific primers contained tail sequences for later Illumina adaptor addition. PCR products were then purified using AMPure XP beads. A secondary PCR was then performed to add the Illumina P5 adaptor to the constant region end and a sample-indexed P7 adaptor to the universal adaptor end. The number of secondary PCR cycles was tailored to each sample to avoid entering plateau phase, as judged by a prior quantitative PCR analysis. Final products were purified, quantified with a TapeStation (Agilent Genomics) and pooled in equimolar proportions, followed by high-throughput 2x300 base-pair paired-end sequencing with a 20% PhiX spike on the Illumina MiSeq platform according to manufacturer’s recommendations, except for performing 325 cycles for read 1 and 275 cycles for read 2."
+      },
+      "sRAOptionalAttributes": [
+        {}
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/7a5fe4b4-d117-4c5c-8e5e-6a05fd2ff146"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "libraryId": "https://schema.metadatacenter.net/properties/libraryId",
+        "libraryTitle": "https://schema.metadatacenter.net/properties/libraryTitle",
+        "libraryStrategy": "https://schema.metadatacenter.net/properties/libraryStrategy",
+        "librarySource": "https://schema.metadatacenter.net/properties/librarySource",
+        "librarySelection": "https://schema.metadatacenter.net/properties/librarySelection",
+        "libraryLayout": "https://schema.metadatacenter.net/properties/libraryLayout",
+        "platform": "https://schema.metadatacenter.net/properties/platform",
+        "instrumentModel": "https://schema.metadatacenter.net/properties/instrumentModel",
+        "designDescription": "https://schema.metadatacenter.net/properties/designDescription",
+        "sRAOptionalAttributes": "https://schema.metadatacenter.net/properties/sRAOptionalAttributes"
+      },
+      "sampleName": {
+        "@value": "HD09_N"
+      },
+      "libraryId": {
+        "@value": "HD09_N_AB8KB"
+      },
+      "libraryTitle": {
+        "@value": "HD09_U_AB0RF"
+      },
+      "libraryStrategy": {
+        "@value": "AMPLICON"
+      },
+      "librarySource": {
+        "@value": "TRANSCRIPTOMIC"
+      },
+      "librarySelection": {
+        "@value": "PCR"
+      },
+      "libraryLayout": {
+        "@value": "PAIRED"
+      },
+      "platform": {
+        "@value": null
+      },
+      "instrumentModel": {
+        "@value": "Illumina MiSeq"
+      },
+      "designDescription": {
+        "@value": "Peripheral blood was obtained from HD and MG subjects. B cells subsets were isolated using flow cytometry. Briefly, peripheral B cells from MG patients and healthy donors were first enriched to >95% by positive selection using CD20 magnetic beads (Milteny). The cells were then stained with perCP-Cy5.5 anti–human CD27 (clone O323), Pacific Blue anti-human CD19 (clone HIB19) (both from Biolegend). Naïve (CD19+, CD27-) or memory B cells (CD19+, CD27+) were then sorted on a FACSAria flow cytometer (BD) into PCR tubes and immediately frozen on dry ice. RNA (250 ng) was reverse-transcribed into cDNA using a biotinylated oligo dT primer. An adaptor sequence was added to the 3' end of all cDNA, which contains a universal priming site and a 17-nucleotide unique molecular identifier (UMI). Products were purified using streptavidin-coated magnetic beads followed by a primary PCR reaction using a pool of primers targeting the IGHA, IGHD, IGHE, IGHG, IGHM, IGKC and IGLC regions, as well as a primer against the universal adaptor sequence. The immunoglobulin-specific primers contained tail sequences for later Illumina adaptor addition. PCR products were then purified using AMPure XP beads. A secondary PCR was then performed to add the Illumina P5 adaptor to the constant region end and a sample-indexed P7 adaptor to the universal adaptor end. The number of secondary PCR cycles was tailored to each sample to avoid entering plateau phase, as judged by a prior quantitative PCR analysis. Final products were purified, quantified with a TapeStation (Agilent Genomics) and pooled in equimolar proportions, followed by high-throughput 2x300 base-pair paired-end sequencing with a 20% PhiX spike on the Illumina MiSeq platform according to manufacturer’s recommendations, except for performing 325 cycles for read 1 and 275 cycles for read 2."
+      },
+      "sRAOptionalAttributes": [
+        {}
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/97deee50-e637-4bd8-8071-2a3eb0778f95"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "libraryId": "https://schema.metadatacenter.net/properties/libraryId",
+        "libraryTitle": "https://schema.metadatacenter.net/properties/libraryTitle",
+        "libraryStrategy": "https://schema.metadatacenter.net/properties/libraryStrategy",
+        "librarySource": "https://schema.metadatacenter.net/properties/librarySource",
+        "librarySelection": "https://schema.metadatacenter.net/properties/librarySelection",
+        "libraryLayout": "https://schema.metadatacenter.net/properties/libraryLayout",
+        "platform": "https://schema.metadatacenter.net/properties/platform",
+        "instrumentModel": "https://schema.metadatacenter.net/properties/instrumentModel",
+        "designDescription": "https://schema.metadatacenter.net/properties/designDescription",
+        "sRAOptionalAttributes": "https://schema.metadatacenter.net/properties/sRAOptionalAttributes"
+      },
+      "sampleName": {
+        "@value": "HD09_M"
+      },
+      "libraryId": {
+        "@value": "HD09_M_AAYHL"
+      },
+      "libraryTitle": {
+        "@value": "HD09_M_AAYHL"
+      },
+      "libraryStrategy": {
+        "@value": "AMPLICON"
+      },
+      "librarySource": {
+        "@value": "TRANSCRIPTOMIC"
+      },
+      "librarySelection": {
+        "@value": "PCR"
+      },
+      "libraryLayout": {
+        "@value": "PAIRED"
+      },
+      "platform": {
+        "@value": null
+      },
+      "instrumentModel": {
+        "@value": "Illumina MiSeq"
+      },
+      "designDescription": {
+        "@value": "Peripheral blood was obtained from HD and MG subjects. B cells subsets were isolated using flow cytometry. Briefly, peripheral B cells from MG patients and healthy donors were first enriched to >95% by positive selection using CD20 magnetic beads (Milteny). The cells were then stained with perCP-Cy5.5 anti–human CD27 (clone O323), Pacific Blue anti-human CD19 (clone HIB19) (both from Biolegend). Naïve (CD19+, CD27-) or memory B cells (CD19+, CD27+) were then sorted on a FACSAria flow cytometer (BD) into PCR tubes and immediately frozen on dry ice. RNA (250 ng) was reverse-transcribed into cDNA using a biotinylated oligo dT primer. An adaptor sequence was added to the 3' end of all cDNA, which contains a universal priming site and a 17-nucleotide unique molecular identifier (UMI). Products were purified using streptavidin-coated magnetic beads followed by a primary PCR reaction using a pool of primers targeting the IGHA, IGHD, IGHE, IGHG, IGHM, IGKC and IGLC regions, as well as a primer against the universal adaptor sequence. The immunoglobulin-specific primers contained tail sequences for later Illumina adaptor addition. PCR products were then purified using AMPure XP beads. A secondary PCR was then performed to add the Illumina P5 adaptor to the constant region end and a sample-indexed P7 adaptor to the universal adaptor end. The number of secondary PCR cycles was tailored to each sample to avoid entering plateau phase, as judged by a prior quantitative PCR analysis. Final products were purified, quantified with a TapeStation (Agilent Genomics) and pooled in equimolar proportions, followed by high-throughput 2x300 base-pair paired-end sequencing with a 20% PhiX spike on the Illumina MiSeq platform according to manufacturer’s recommendations, except for performing 325 cycles for read 1 and 275 cycles for read 2."
+      },
+      "sRAOptionalAttributes": [
+        {}
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/341ea8b2-081c-4ccf-8bec-696ae807ccd2"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "libraryId": "https://schema.metadatacenter.net/properties/libraryId",
+        "libraryTitle": "https://schema.metadatacenter.net/properties/libraryTitle",
+        "libraryStrategy": "https://schema.metadatacenter.net/properties/libraryStrategy",
+        "librarySource": "https://schema.metadatacenter.net/properties/librarySource",
+        "librarySelection": "https://schema.metadatacenter.net/properties/librarySelection",
+        "libraryLayout": "https://schema.metadatacenter.net/properties/libraryLayout",
+        "platform": "https://schema.metadatacenter.net/properties/platform",
+        "instrumentModel": "https://schema.metadatacenter.net/properties/instrumentModel",
+        "designDescription": "https://schema.metadatacenter.net/properties/designDescription",
+        "sRAOptionalAttributes": "https://schema.metadatacenter.net/properties/sRAOptionalAttributes"
+      },
+      "sampleName": {
+        "@value": null
+      },
+      "libraryId": {
+        "@value": null
+      },
+      "libraryTitle": {
+        "@value": null
+      },
+      "libraryStrategy": {
+        "@value": null
+      },
+      "librarySource": {
+        "@value": null
+      },
+      "librarySelection": {
+        "@value": null
+      },
+      "libraryLayout": {
+        "@value": null
+      },
+      "platform": {
+        "@value": null
+      },
+      "instrumentModel": {
+        "@value": null
+      },
+      "designDescription": {
+        "@value": null
+      },
+      "sRAOptionalAttributes": [
+        {}
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/6317094b-c19a-482e-9741-22d55fbc5147"
+    }
+  ],
+  "nCBIBioSample": [
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "releaseDate": "https://schema.metadatacenter.net/properties/releaseDate",
+        "sampleType": "https://schema.metadatacenter.net/properties/sampleType",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "organism": "https://schema.metadatacenter.net/properties/organism",
+        "isolate": "https://schema.metadatacenter.net/properties/isolate",
+        "age": "https://schema.metadatacenter.net/properties/age",
+        "biomaterialProvider": "https://schema.metadatacenter.net/properties/biomaterialProvider",
+        "sex": "https://schema.metadatacenter.net/properties/sex",
+        "tissue": "https://schema.metadatacenter.net/properties/tissue",
+        "phenotype": "https://schema.metadatacenter.net/properties/phenotype",
+        "cellType": "https://schema.metadatacenter.net/properties/cellType",
+        "cellSubtype": "https://schema.metadatacenter.net/properties/cellSubtype",
+        "disease": "https://schema.metadatacenter.net/properties/disease",
+        "diseaseStage": "https://schema.metadatacenter.net/properties/diseaseStage",
+        "healthState": "https://schema.metadatacenter.net/properties/healthState",
+        "bioSampleOptionalAttributes": "https://schema.metadatacenter.net/properties/bioSampleOptionalAttributes"
+      },
+      "releaseDate": {
+        "@value": "09/30/2017",
+        "@type": "xsd:date"
+      },
+      "sampleType": {
+        "@value": "Human sample"
+      },
+      "sampleName": {
+        "@value": "MK05_N"
+      },
+      "organism": {
+        "@id": "http://purl.bioontology.org/ontology/NCBITAXON/9606",
+        "_valueLabel": "Homo sapiens"
+      },
+      "isolate": {
+        "@value": "MK05"
+      },
+      "age": {
+        "@value": "18"
+      },
+      "biomaterialProvider": {
+        "@value": "O'Connor Lab, Yale School of Medicine"
+      },
+      "sex": {
+        "@value": "female"
+      },
+      "cellType": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000236",
+        "_valueLabel": "B cell"
+      },
+      "cellSubtype": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000788",
+        "_valueLabel": "naive B cell"
+      },
+      "disease": {
+        "@id": "http://purl.obolibrary.org/obo/DOID_437",
+        "_valueLabel": "myasthenia gravis"
+      },
+      "diseaseStage": {
+        "@value": "I"
+      },
+      "healthState": {
+        "@value": null
+      },
+      "phenotype": {
+        "@value": "AchR"
+      },
+      "tissue": {
+        "@id": "http://purl.obolibrary.org/obo/BTO_0000553",
+        "_valueLabel": "peripheral blood"
+      },
+      "bioSampleOptionalAttributes": [
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "disease_duration_yrs"
+          },
+          "value": {
+            "@value": "8"
+          }
+        },
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "abc"
+          },
+          "value": {
+            "@value": "No thymoma, No thymectomy"
+          }
+        }
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/03b22223-9833-4093-ba46-48ae6b413626"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "releaseDate": "https://schema.metadatacenter.net/properties/releaseDate",
+        "sampleType": "https://schema.metadatacenter.net/properties/sampleType",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "organism": "https://schema.metadatacenter.net/properties/organism",
+        "isolate": "https://schema.metadatacenter.net/properties/isolate",
+        "age": "https://schema.metadatacenter.net/properties/age",
+        "biomaterialProvider": "https://schema.metadatacenter.net/properties/biomaterialProvider",
+        "sex": "https://schema.metadatacenter.net/properties/sex",
+        "tissue": "https://schema.metadatacenter.net/properties/tissue",
+        "phenotype": "https://schema.metadatacenter.net/properties/phenotype",
+        "cellType": "https://schema.metadatacenter.net/properties/cellType",
+        "cellSubtype": "https://schema.metadatacenter.net/properties/cellSubtype",
+        "disease": "https://schema.metadatacenter.net/properties/disease",
+        "diseaseStage": "https://schema.metadatacenter.net/properties/diseaseStage",
+        "healthState": "https://schema.metadatacenter.net/properties/healthState",
+        "bioSampleOptionalAttributes": "https://schema.metadatacenter.net/properties/bioSampleOptionalAttributes"
+      },
+      "releaseDate": {
+        "@value": "09/30/2017",
+        "@type": "xsd:date"
+      },
+      "sampleType": {
+        "@value": "Human sample"
+      },
+      "sampleName": {
+        "@value": "MK05_M"
+      },
+      "organism": {
+        "@id": "http://purl.bioontology.org/ontology/NCBITAXON/9606",
+        "_valueLabel": "Homo sapiens"
+      },
+      "isolate": {
+        "@value": "MK05"
+      },
+      "age": {
+        "@value": "18"
+      },
+      "biomaterialProvider": {
+        "@value": "O'Connor Lab, Yale School of Medicine"
+      },
+      "sex": {
+        "@value": "female"
+      },
+      "cellType": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000236",
+        "_valueLabel": "B cell"
+      },
+      "cellSubtype": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000787",
+        "_valueLabel": "memory B cell"
+      },
+      "disease": {
+        "@id": "http://purl.obolibrary.org/obo/DOID_437",
+        "_valueLabel": "myasthenia gravis"
+      },
+      "diseaseStage": {
+        "@value": "I"
+      },
+      "healthState": {
+        "@value": null
+      },
+      "phenotype": {
+        "@value": "AchR"
+      },
+      "tissue": {
+        "@id": "http://purl.obolibrary.org/obo/BTO_0000553",
+        "_valueLabel": "peripheral blood"
+      },
+      "bioSampleOptionalAttributes": [
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "disease_duration_yrs"
+          },
+          "value": {
+            "@value": "8"
+          }
+        },
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "thymus_status"
+          },
+          "value": {
+            "@value": "No thymoma, No thymectomy"
+          }
+        }
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/b0e772ae-a8be-48d3-8567-3767a243c078"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "releaseDate": "https://schema.metadatacenter.net/properties/releaseDate",
+        "sampleType": "https://schema.metadatacenter.net/properties/sampleType",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "organism": "https://schema.metadatacenter.net/properties/organism",
+        "isolate": "https://schema.metadatacenter.net/properties/isolate",
+        "age": "https://schema.metadatacenter.net/properties/age",
+        "biomaterialProvider": "https://schema.metadatacenter.net/properties/biomaterialProvider",
+        "sex": "https://schema.metadatacenter.net/properties/sex",
+        "tissue": "https://schema.metadatacenter.net/properties/tissue",
+        "phenotype": "https://schema.metadatacenter.net/properties/phenotype",
+        "cellType": "https://schema.metadatacenter.net/properties/cellType",
+        "cellSubtype": "https://schema.metadatacenter.net/properties/cellSubtype",
+        "disease": "https://schema.metadatacenter.net/properties/disease",
+        "diseaseStage": "https://schema.metadatacenter.net/properties/diseaseStage",
+        "healthState": "https://schema.metadatacenter.net/properties/healthState",
+        "bioSampleOptionalAttributes": "https://schema.metadatacenter.net/properties/bioSampleOptionalAttributes"
+      },
+      "releaseDate": {
+        "@value": "09/30/2017",
+        "@type": "xsd:date"
+      },
+      "sampleType": {
+        "@value": "Human sample"
+      },
+      "sampleName": {
+        "@value": "MK04_N"
+      },
+      "organism": {
+        "@id": "http://purl.bioontology.org/ontology/NCBITAXON/9606",
+        "_valueLabel": "Homo sapiens"
+      },
+      "isolate": {
+        "@value": "MK04"
+      },
+      "age": {
+        "@value": "51"
+      },
+      "biomaterialProvider": {
+        "@value": "O'Connor Lab, Yale School of Medicine"
+      },
+      "sex": {
+        "@value": "female"
+      },
+      "cellType": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000236",
+        "_valueLabel": "B cell"
+      },
+      "cellSubtype": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000788",
+        "_valueLabel": "naive B cell"
+      },
+      "disease": {
+        "@id": "http://purl.obolibrary.org/obo/DOID_437",
+        "_valueLabel": "myasthenia gravis"
+      },
+      "diseaseStage": {
+        "@value": "IIb"
+      },
+      "healthState": {
+        "@value": null
+      },
+      "phenotype": {
+        "@value": "MuSK"
+      },
+      "tissue": {
+        "@id": "http://purl.obolibrary.org/obo/BTO_0000553",
+        "_valueLabel": "peripheral blood"
+      },
+      "bioSampleOptionalAttributes": [
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "disease_duration_yrs"
+          },
+          "value": {
+            "@value": "19"
+          }
+        },
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "thymus_status"
+          },
+          "value": {
+            "@value": "No thymoma, No thymectomy"
+          }
+        }
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/56e18fb5-971e-4b33-bd8f-296a6ed92671"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "releaseDate": "https://schema.metadatacenter.net/properties/releaseDate",
+        "sampleType": "https://schema.metadatacenter.net/properties/sampleType",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "organism": "https://schema.metadatacenter.net/properties/organism",
+        "isolate": "https://schema.metadatacenter.net/properties/isolate",
+        "age": "https://schema.metadatacenter.net/properties/age",
+        "biomaterialProvider": "https://schema.metadatacenter.net/properties/biomaterialProvider",
+        "sex": "https://schema.metadatacenter.net/properties/sex",
+        "tissue": "https://schema.metadatacenter.net/properties/tissue",
+        "phenotype": "https://schema.metadatacenter.net/properties/phenotype",
+        "cellType": "https://schema.metadatacenter.net/properties/cellType",
+        "cellSubtype": "https://schema.metadatacenter.net/properties/cellSubtype",
+        "disease": "https://schema.metadatacenter.net/properties/disease",
+        "diseaseStage": "https://schema.metadatacenter.net/properties/diseaseStage",
+        "healthState": "https://schema.metadatacenter.net/properties/healthState",
+        "bioSampleOptionalAttributes": "https://schema.metadatacenter.net/properties/bioSampleOptionalAttributes"
+      },
+      "releaseDate": {
+        "@value": "09/30/2017",
+        "@type": "xsd:date"
+      },
+      "sampleType": {
+        "@value": "Human sample"
+      },
+      "sampleName": {
+        "@value": "MK04_M"
+      },
+      "organism": {
+        "@id": "http://purl.bioontology.org/ontology/NCBITAXON/9606",
+        "_valueLabel": "Homo sapiens"
+      },
+      "isolate": {
+        "@value": "MK04"
+      },
+      "age": {
+        "@value": "51"
+      },
+      "biomaterialProvider": {
+        "@value": "O'Connor Lab, Yale School of Medicine"
+      },
+      "sex": {
+        "@value": "female"
+      },
+      "cellType": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000236",
+        "_valueLabel": "B cell"
+      },
+      "cellSubtype": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000787",
+        "_valueLabel": "memory B cell"
+      },
+      "disease": {
+        "@id": "http://purl.obolibrary.org/obo/DOID_437",
+        "_valueLabel": "myasthenia gravis"
+      },
+      "diseaseStage": {
+        "@value": "IIb"
+      },
+      "healthState": {
+        "@value": null
+      },
+      "phenotype": {
+        "@value": "MuSK"
+      },
+      "tissue": {
+        "@id": "http://purl.obolibrary.org/obo/BTO_0000553",
+        "_valueLabel": "peripheral blood"
+      },
+      "bioSampleOptionalAttributes": [
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "disease_duration_yrs"
+          },
+          "value": {
+            "@value": "19"
+          }
+        },
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "thymus_status"
+          },
+          "value": {
+            "@value": "No thymoma, No thymectomy"
+          }
+        }
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/2c7d7903-be3d-438e-8c0a-7150d5c5f530"
+    },
+    {
+      "@context": {
+        "pav": "http://purl.org/pav/",
+        "oslc": "http://open-services.net/ns/core#",
+        "releaseDate": "https://schema.metadatacenter.net/properties/releaseDate",
+        "sampleType": "https://schema.metadatacenter.net/properties/sampleType",
+        "sampleName": "https://schema.metadatacenter.net/properties/sampleName",
+        "organism": "https://schema.metadatacenter.net/properties/organism",
+        "isolate": "https://schema.metadatacenter.net/properties/isolate",
+        "age": "https://schema.metadatacenter.net/properties/age",
+        "biomaterialProvider": "https://schema.metadatacenter.net/properties/biomaterialProvider",
+        "sex": "https://schema.metadatacenter.net/properties/sex",
+        "tissue": "https://schema.metadatacenter.net/properties/tissue",
+        "phenotype": "https://schema.metadatacenter.net/properties/phenotype",
+        "cellType": "https://schema.metadatacenter.net/properties/cellType",
+        "cellSubtype": "https://schema.metadatacenter.net/properties/cellSubtype",
+        "disease": "https://schema.metadatacenter.net/properties/disease",
+        "diseaseStage": "https://schema.metadatacenter.net/properties/diseaseStage",
+        "healthState": "https://schema.metadatacenter.net/properties/healthState",
+        "bioSampleOptionalAttributes": "https://schema.metadatacenter.net/properties/bioSampleOptionalAttributes"
+      },
+      "releaseDate": {
+        "@value": "09/30/2017",
+        "@type": "xsd:date"
+      },
+      "sampleType": {
+        "@value": "Human sample"
+      },
+      "sampleName": {
+        "@value": "AR05_N"
+      },
+      "organism": {
+        "@id": "http://purl.bioontology.org/ontology/NCBITAXON/9606",
+        "_valueLabel": "Homo sapiens"
+      },
+      "isolate": {
+        "@value": "AR05"
+      },
+      "age": {
+        "@value": "19"
+      },
+      "biomaterialProvider": {
+        "@value": "O'Connor Lab, Yale School of Medicine"
+      },
+      "sex": {
+        "@value": "male"
+      },
+      "cellType": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000236",
+        "_valueLabel": "B cell"
+      },
+      "cellSubtype": {
+        "@id": "http://purl.obolibrary.org/obo/CL_0000788",
+        "_valueLabel": "naive B cell"
+      },
+      "disease": {
+        "@id": "http://purl.obolibrary.org/obo/DOID_437",
+        "_valueLabel": "myasthenia gravis"
+      },
+      "diseaseStage": {
+        "@value": "I"
+      },
+      "healthState": {
+        "@value": null
+      },
+      "phenotype": {
+        "@value": "MuSK\n"
+      },
+      "tissue": {
+        "@id": "http://purl.obolibrary.org/obo/BTO_0000553",
+        "_valueLabel": "peripheral blood"
+      },
+      "bioSampleOptionalAttributes": [
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "disease_duration_yrs"
+          },
+          "value": {
+            "@value": "<1"
+          },
+          "@id": "https://repo.staging.metadatacenter.net/template-element-instances/9b8346fa-55ab-42f8-b8c8-b84d49b4d233"
+        },
+        {
+          "@context": {
+            "pav": "http://purl.org/pav/",
+            "oslc": "http://open-services.net/ns/core#",
+            "name": "https://schema.metadatacenter.net/properties/name",
+            "value": "https://schema.metadatacenter.net/properties/value"
+          },
+          "name": {
+            "@value": "thymus_status"
+          },
+          "value": {
+            "@value": "No thymoma, No thymectomy"
+          },
+          "@id": "https://repo.staging.metadatacenter.net/template-element-instances/26075150-afed-4941-b5e1-f13c6dd7c8b4"
+        }
+      ],
+      "@id": "https://repo.staging.metadatacenter.net/template-element-instances/c67db063-35f2-4be2-a86f-446c9ae70f20"
+    }
+  ],
+  "nCBIBioProject": {
+    "@context": {
+      "pav": "http://purl.org/pav/",
+      "oslc": "http://open-services.net/ns/core#",
+      "bioProjectId": "https://schema.metadatacenter.net/properties/bioProjectId",
+      "projectTitle": "https://schema.metadatacenter.net/properties/projectTitle",
+      "publicDescription": "https://schema.metadatacenter.net/properties/publicDescription",
+      "projectDataType": "https://schema.metadatacenter.net/properties/projectDataType",
+      "sampleScope": "https://schema.metadatacenter.net/properties/sampleScope",
+      "organismName": "https://schema.metadatacenter.net/properties/organismName",
+      "firstName": "https://schema.metadatacenter.net/properties/firstName",
+      "lastName": "https://schema.metadatacenter.net/properties/lastName",
+      "email": "https://schema.metadatacenter.net/properties/email",
+      "submittingOrganization": "https://schema.metadatacenter.net/properties/submittingOrganization",
+      "department": "https://schema.metadatacenter.net/properties/department",
+      "bioSampleOptionalAttributes": "https://schema.metadatacenter.net/properties/bioSampleOptionalAttributes"
+    },
+    "bioProjectId": {
+      "@value": "PRJNA338795"
+    },
+    "projectTitle": {
+      "@value": "B cell repertoire in myasthenia gravis"
+    },
+    "publicDescription": {
+      "@value": "Myasthenia gravis (MG) is a chronic autoimmune disorder of neuromuscular signal transmission characterized by muscle weakness and fatigability. MG is a prototypical B cell-mediated autoimmune disease affecting 20-50 per 100,000 people. The majority of patients fall into two clinically distinguishable types based on whether they produce autoantibodies targeting the acetylcholine receptor (AChR-MG) or muscle specific kinase (MuSK-MG). The autoantibodies are pathogenic, but whether their generation is associated with broader defects in the B cell repertoire is unknown. To address this question, we performed deep sequencing of the B cell receptor repertoire of AChR-MG, MuSK-MG and healthy subjects."
+    },
+    "organismName": {
+      "@id": "http://purl.bioontology.org/ontology/NCBITAXON/9606",
+      "_valueLabel": "Homo sapiens"
+    },
+    "firstName": {
+      "@value": "Kevin"
+    },
+    "email": {
+      "@value": "kevin.connor@yale.edu"
+    },
+    "lastName": {
+      "@value": "O'Connor"
+    },
+    "bioProjectOptionalAttributes": [
+      {
+        "@context": {
+          "pav": "http://purl.org/pav/",
+          "oslc": "http://open-services.net/ns/core#",
+          "name": "https://schema.metadatacenter.net/properties/name",
+          "value": "https://schema.metadatacenter.net/properties/value"
+        },
+        "name": {
+          "@value": null
+        },
+        "value": {
+          "@value": null
+        }
+      }
+    ],
+    "submittingOrganization": {
+      "@value": "Yale University"
+    },
+    "department": {
+      "@value": "School of medicine"
+    },
+    "projectDataType": [
+      {
+        "@value": "Raw sequence reads"
+      }
+    ],
+    "sampleScope": {
+      "@value": "Multiisolate"
+    },
+    "@id": "https://repo.staging.metadatacenter.net/template-element-instances/69357fd1-5f65-46ed-b078-2b1f556cdd68"
+  },
+  "schema:isBasedOn": "https://repo.staging.metadatacenter.net/templates/13e86c47-4501-4571-aab3-8d7a62778e47",
+  "schema:name": "CEDAR-NCBI metadata",
+  "schema:description": "CEDAR to NCBI data submission pipeline",
+  "pav:createdOn": "2017-07-21T17:18:25-0700",
+  "pav:createdBy": "https://metadatacenter.org/users/e8e7005a-5404-4a2d-8e97-5b0b2cbbf03a",
+  "pav:lastUpdatedOn": "2017-07-21T17:40:32-0700",
+  "oslc:modifiedBy": "https://metadatacenter.org/users/e8e7005a-5404-4a2d-8e97-5b0b2cbbf03a",
+  "@id": "https://repo.staging.metadatacenter.net/template-instances/4caf70d0-82fc-47b1-907c-fed7864f2561"
+}
