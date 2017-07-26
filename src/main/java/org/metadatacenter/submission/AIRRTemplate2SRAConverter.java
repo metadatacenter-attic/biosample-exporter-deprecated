@@ -321,13 +321,6 @@ public class AIRRTemplate2SRAConverter
       sraAddFiles.setTargetDb("SRA");
       // TODO Set attribute CDE ID?
 
-      // XXX: No information about file attachment in the instance
-      // Submission/Action[2]/AddFiles/File
-//      TypeSubmission.Action.AddFiles.File sraFile = objectFactory.createTypeSubmissionActionAddFilesFile();
-//      if (sraFile != null) {
-//        sraAddFiles.getFile().add(sraFile);
-//      }
-
       // Submission/Action[1]/AddFiles/Attributes/Attribute - AIRR SRA attributes
       String value = ncbiSRA.getSampleName().getValue();
       if (value != null) {
@@ -409,25 +402,18 @@ public class AIRRTemplate2SRAConverter
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
       }
+
       // File name and type (multiple) new added
       //RE-CHECK LOOPS VARIABLES
       for (SRAOptionalAttribute sraOptionalAttribute : ncbiSRA.getSRAOptionalAttributes()) {
-
-        FileType fileType = sraOptionalAttribute.getFileType();
-        if (fileType != null) {
-          TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
-          fileAttribute.setName("FileType");
-          fileAttribute.setValue(fileType.getValue());
-          sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
-        }
-
-        FileName fileName = sraOptionalAttribute.getFileName();
-        if (fileName != null) {
-          TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
-          fileAttribute.setName("FileName");
-          fileAttribute.setValue(fileName.getValue());
-          sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
-        }
+          FileName fileName = sraOptionalAttribute.getFileName();
+          FileType fileType = sraOptionalAttribute.getFileType();
+          if (fileName != null && fileType != null) {
+            TypeSubmission.Action.AddFiles.File sraFile = objectFactory.createTypeSubmissionActionAddFilesFile();
+            sraFile.setPath(fileName.getValue());
+            sraFile.setDataType(fileType.getValue());
+            sraAddFiles.getFile().add(sraFile);
+          }
       }
 
       // BioProject Reference ID
