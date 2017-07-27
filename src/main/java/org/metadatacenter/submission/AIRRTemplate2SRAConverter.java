@@ -4,7 +4,7 @@ import biosample.TypeAttribute;
 import biosample.TypeBioSample;
 import biosample.TypeBioSampleIdentifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import common.sp.TypeDescriptor;
+import common.sp.*;
 import generated.*;
 import org.metadatacenter.submission.biosample.AIRRTemplate;
 import org.metadatacenter.submission.biosample.BioSampleOptionalAttribute;
@@ -22,6 +22,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
@@ -68,142 +69,126 @@ public class AIRRTemplate2SRAConverter
   public String generateSRASubmissionXMLFromAIRRTemplateInstance(AIRRTemplate airrInstance)
     throws DatatypeConfigurationException, JAXBException
   {
-    final generated.ObjectFactory objectFactory = new generated.ObjectFactory();
-    final biosample.ObjectFactory bioSampleObjectFactory = new biosample.ObjectFactory();
+    final generated.ObjectFactory submissionObjectFactory = new generated.ObjectFactory();
     final common.sp.ObjectFactory spCommonObjectFactory = new common.sp.ObjectFactory();
+    final biosample.ObjectFactory bioSampleObjectFactory = new biosample.ObjectFactory();
 
-    TypeSubmission xmlSubmission = objectFactory.createTypeSubmission();
+    Submission submission = submissionObjectFactory.createSubmission();
     NCBIBioProject ncbiBioProject = airrInstance.getNCBIBioProject();
 
-    // BioProject ID
-//    ncbiBioProject.setBioProjectId(ncbiBioProject.getBioProjectId()); //BioProject ID
+    /*
+     * Object construction for the submission <Description> section
+     */
+    TypeName contactName = spCommonObjectFactory.createTypeName();
+    contactName.setFirst(ncbiBioProject.getFirstName().getValue());
+    contactName.setLast(ncbiBioProject.getLastName().getValue());
 
-    // Project Title
-//    ncbiBioProject.setProjectDataType(ncbiBioProject.getProjectDataType()); // project title
+    TypeContactInfo contactInfo = spCommonObjectFactory.createTypeContactInfo();
+    contactInfo.setEmail(ncbiBioProject.getEmail().getValue());
+    contactInfo.setName(contactName);
 
-    // Submission/Description/public description
-//    ncbiBioProject.setPublicDescription(ncbiBioProject.getPublicDescription());  // public description
+    TypeOrganization.Name organizationName = submissionObjectFactory.createTypeOrganizationName();
+    organizationName.setValue(ncbiBioProject.getSubmittingOrganization().getValue());
 
-    // Submission/Description/project data type
-//    ncbiBioProject.setProjectDataType(ncbiBioProject.getProjectDataType()); // proejct data type
+    TypeAccount contactSubmitter = submissionObjectFactory.createTypeAccount();
+    contactSubmitter.setUserName("loremipsum"); // XXX: Hard-coded due to no corresponding entry in the AIRR instance
 
-    // Submission/Description/sample scope
-//    ncbiBioProject.setSampleScope(ncbiBioProject.getSampleScope()); // proejct sample scope
+    TypeOrganization contactOrganization = submissionObjectFactory.createTypeOrganization();
+    contactOrganization.setType("lab"); // XXX: Hard-coded due to no corresponding entry in the AIRR instance
+    contactOrganization.setRole("owner"); // XXX: Hard-coded due to no corresponding entry in the AIRR instance
+    contactOrganization.setName(organizationName);
+    contactOrganization.getContact().add(contactInfo);
 
-    // Submission/Description/Organization/ContactInfo/Name
+    Submission.Description submissionDescription = submissionObjectFactory.createSubmissionDescription();
+    submissionDescription.setComment("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
+        + "incididunt ut labore et dolore magna aliqua."); // XXX: Hard-coded due to no corresponding entry in the AIRR instance
+    submissionDescription.setSubmitter(contactSubmitter);
+    submissionDescription.getOrganization().add(contactOrganization);
 
-//    ncbiBioProject.setFirstName(ncbiBioProject.getFirstName()); // first name
-//    ncbiBioProject.setLastName(ncbiBioProject.getLastName()); // last name
+    submission.setDescription(submissionDescription);
 
-    // Submission/Description/Organization/ContactInfo/email
-//    ncbiBioProject.setEmail(ncbiBioProject.getEmail()); // e-mail
-
-    // Submission/Description/Organization/Name
-    // Submission/Description/Organization
-//    ncbiBioProject.setSubmittingOrganization(ncbiBioProject.getSubmittingOrganization()); // Submitting Organization
-
-    // Submission/Description/Department/Name
-//    ncbiBioProject.setDepartment(ncbiBioProject.getDepartment()); // Submitting Organization // department
-
+    /*
+     * Object construction for the BioSample submission <Action> section
+     */
     for (NCBIBioSample ncbiBioSample : airrInstance.getNCBIBioSample()) {
 
-      // Submission/Action[1] - BioSample
-      TypeSubmission.Action bioSampleAction = objectFactory.createTypeSubmissionAction();
-      xmlSubmission.getAction().add(bioSampleAction);
-
-      // Submission/Action[1]/AddData/target_db
-      TypeSubmission.Action.AddData addData = objectFactory.createTypeSubmissionActionAddData();
-      bioSampleAction.setAddData(addData);
-      addData.setTargetDb("BioSample");
-
-      // Submission/Action[1]/AddData/Data/content_type
-      TypeSubmission.Action.AddData.Data data = objectFactory.createTypeSubmissionActionAddDataData();
-      addData.getData().add(data);
-      data.setContentType("XML");
-
-      // Submission/Action[1]/AddData/Data/XMLContent
-      TypeSubmission.Action.AddData.Data.XmlContent xmlContent = objectFactory.createTypeInlineDataXmlContent();
-      data.setXmlContent(xmlContent);
-
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/schema_version
+      // Start <BioSample> section
       TypeBioSample bioSample = bioSampleObjectFactory.createTypeBioSample();
-      xmlContent.setBioSample(bioSample);
-      bioSample.setSchemaVersion("2.0");
+      bioSample.setSchemaVersion("2.0"); // XXX: Hard-coded
 
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/SampleID
+      // SampleId
+      String bioSampleId = createNewBioSampleId();
+      TypeBioSampleIdentifier.SPUID spuid = bioSampleObjectFactory.createTypeBioSampleIdentifierSPUID();
+      spuid.setSpuidNamespace("CEDAR"); // XXX: Hard-coded
+      spuid.setValue(bioSampleId);
+
       TypeBioSampleIdentifier sampleID = bioSampleObjectFactory.createTypeBioSampleIdentifier();
+      sampleID.getSPUID().add(spuid);
+
       bioSample.setSampleId(sampleID);
 
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/SampleID/SPUID
-      TypeBioSampleIdentifier.SPUID spuid = bioSampleObjectFactory.createTypeBioSampleIdentifierSPUID();
-      sampleID.getSPUID().add(spuid);
-      spuid.setSpuidNamespace("CEDAR");
-      spuid.setValue(createNewBioSampleId());
+      // Descriptor
+      JAXBElement descriptionElement = new JAXBElement(
+          new QName("p"), String.class, // as in HTML <p> tag
+          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor "
+              + "incididunt ut labore et dolore magna aliqua."); // XXX: Hard-coded due to no corresponding entry in the AIRR instance
 
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Descriptor
-      TypeDescriptor descriptor = spCommonObjectFactory.createTypeDescriptor();
-      bioSample.setDescriptor(descriptor);
-      descriptor.setTitle("CEDAR-NCBI Example instance of mythania gravis study"); // TODO Where from?
+      TypeBlock sampleDescription = spCommonObjectFactory.createTypeBlock();
+      sampleDescription.getPOrUlOrOl().add(descriptionElement);
 
-      // XXX: The <BioProject> tag is unknown to the working submission example
-//      TypeRefId bioProject = spCommonObjectFactory.createTypeRefId();
-//      bioSample.getBioProject().add(bioProject);
+      TypeDescriptor sampleDescriptor = spCommonObjectFactory.createTypeDescriptor();
+      sampleDescriptor.setTitle("Lorem ipsum dolor sit amet"); // XXX: Hard-coded due to no corresponding entry in the AIRR instance
+      sampleDescriptor.setDescription(sampleDescription);
 
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/BioProject/PrimaryID
-//      TypePrimaryId bioProjectPrimaryID = spCommonObjectFactory.createTypePrimaryId();
-//      bioProject.setPrimaryId(bioProjectPrimaryID);
-//      bioProjectPrimaryID.setDb("BioProject");
-//      bioProjectPrimaryID.setValue(ncbiBioProject.getBioProjectId().getValue());
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Package
-      bioSample
-        .setPackage("Human.1.0"); // TODO Is this hard coded for AIRR? //Could be get from datatype part of bioproject
+      bioSample.setDescriptor(sampleDescriptor);
 
-      //RE-CHECK LOOPS VARIABLES
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes
+      // Organism
+      TypeOrganism sampleOrganism = spCommonObjectFactory.createTypeOrganism();
+      sampleOrganism.setOrganismName("Homo sapiens"); // XXX: Hard-coded
+
+      bioSample.setOrganism(sampleOrganism);
+
+      // Package
+      bioSample.setPackage("Human.1.0"); // XXX: Hard-coded
+
+      // Attributes
       TypeBioSample.Attributes bioSampleAttributes = bioSampleObjectFactory.createTypeBioSampleAttributes();
-      bioSample.setAttributes(bioSampleAttributes);
-
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes/Attribute - AIRR BioSample attributes
-
-      // New add
       String value = ncbiBioSample.getReleaseDate().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("projectedReleaseDate");
+        attribute.setAttributeName("projectedReleaseDate"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      // New add
       value = ncbiBioSample.getSampleType().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("sampleType");
+        attribute.setAttributeName("sampleType"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      // New add
       value = ncbiBioSample.getSampleName().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("sampleName");
+        attribute.setAttributeName("sampleName"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
-      // new add
+
       value = ncbiBioSample.getIsolate().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("isolate");
+        attribute.setAttributeName("isolate"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
-      // New add
+
       value = ncbiBioSample.getOrganism().getValueLabel();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("organism");
+        attribute.setAttributeName("organism"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
@@ -211,7 +196,7 @@ public class AIRRTemplate2SRAConverter
       value = ncbiBioSample.getAge().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("age");
+        attribute.setAttributeName("age"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
@@ -219,7 +204,7 @@ public class AIRRTemplate2SRAConverter
       value = ncbiBioSample.getBiomaterialProvider().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("biomaterialProvider");
+        attribute.setAttributeName("biomaterialProvider"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
@@ -227,7 +212,7 @@ public class AIRRTemplate2SRAConverter
       value = ncbiBioSample.getSex().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("sex");
+        attribute.setAttributeName("sex"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
@@ -235,96 +220,124 @@ public class AIRRTemplate2SRAConverter
       value = ncbiBioSample.getTissue().getValueLabel();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("tissue");
+        attribute.setAttributeName("tissue"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      //Added new
       value = ncbiBioSample.getPhenotype().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("phenotype");
+        attribute.setAttributeName("phenotype"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      //Added new
       value = ncbiBioSample.getCellType().getValueLabel();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("cellType");
+        attribute.setAttributeName("cellType"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      //Added new
       value = ncbiBioSample.getCellSubtype().getValueLabel();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("cellSubType");
+        attribute.setAttributeName("cellSubType"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      //Added new
       value = ncbiBioSample.getDisease().getValueLabel();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("disease");
+        attribute.setAttributeName("disease"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      // new add
       value = ncbiBioSample.getDiseaseStage().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("diseaseStage");
+        attribute.setAttributeName("diseaseStage"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      // new add
       value = ncbiBioSample.getHealthState().getValue();
       if (value != null) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
-        attribute.setAttributeName("healthState");
+        attribute.setAttributeName("healthState"); // XXX: Hard-coded
         attribute.setValue(value);
         bioSampleAttributes.getAttribute().add(attribute);
       }
 
-      //RE-CHECK LOOPS VARIABLES
-
+      // Optional attributes
       for (BioSampleOptionalAttribute optionalAttribute : ncbiBioSample.getBioSampleOptionalAttributes()) {
         TypeAttribute attribute = bioSampleObjectFactory.createTypeAttribute();
         attribute.setAttributeName(optionalAttribute.getName().getValue());
         attribute.setValue(optionalAttribute.getValue().getValue());
         bioSampleAttributes.getAttribute().add(attribute);
       }
+
+      bioSample.setAttributes(bioSampleAttributes);
+
+      // XmlContent
+      // Developement Note: The original NCBI submission doesn't includ the BioSample element, so it
+      // is required to append the rule in the submission.xsd file (See submission.xsd:441)
+      TypeInlineData.XmlContent xmlContent = submissionObjectFactory.createTypeInlineDataXmlContent();
+      xmlContent.setBioSample(bioSample);
+
+      // Data
+      Submission.Action.AddData.Data bioSampleData = submissionObjectFactory.createSubmissionActionAddDataData();
+      bioSampleData.setContentType("XML"); // XXX: Hard-coded
+      bioSampleData.setXmlContent(xmlContent);
+
+      // Identifier
+      TypeSPUID bioSampleSpuid = spCommonObjectFactory.createTypeSPUID();
+      bioSampleSpuid.setSpuidNamespace("CEDAR"); // XXX: Hard-coded
+      bioSampleSpuid.setValue(bioSampleId);
+
+      TypeIdentifier bioSampleIdentifier = spCommonObjectFactory.createTypeIdentifier();
+      bioSampleIdentifier.setSPUID(bioSampleSpuid);
+
+      // AddData
+      Submission.Action.AddData bioSampleAddData = submissionObjectFactory.createSubmissionActionAddData();
+      bioSampleAddData.setTargetDb(TypeTargetDb.BIO_SAMPLE);
+      bioSampleAddData.setData(bioSampleData);
+      bioSampleAddData.setIdentifier(bioSampleIdentifier);
+
+      // Action
+      Submission.Action bioSampleAction = submissionObjectFactory.createSubmissionAction();
+      bioSampleAction.setAddData(bioSampleAddData);
+
+      submission.getAction().add(bioSampleAction);
     }
 
-    //RE-CHECK LOOPS VARIABLES
     int sraIndex = 0; // to track the corresponding BioSample record for this SRA entry
     for (NCBISRA ncbiSRA : airrInstance.getNCBISRA()) {
 
-      // Submission/Action[1]/AddData/Data/XMLContent/BioSample/Attributes
-      TypeBioSample.Attributes sraAttributes = bioSampleObjectFactory.createTypeBioSampleAttributes();
+      // AddFiles
+      Submission.Action.AddFiles sraAddFiles = submissionObjectFactory.createSubmissionActionAddFiles();
+      sraAddFiles.setTargetDb(TypeTargetDb.SRA);
 
-      // Submission/Action[2] - SRA
-      TypeSubmission.Action sraAction = objectFactory.createTypeSubmissionAction();
-      xmlSubmission.getAction().add(sraAction);
+      // File
+      for (SRAOptionalAttribute sraOptionalAttribute : ncbiSRA.getSRAOptionalAttributes()) {
+        FileName fileName = sraOptionalAttribute.getFileName();
+        FileType fileType = sraOptionalAttribute.getFileType();
+        if (fileName != null && fileType != null) {
+          Submission.Action.AddFiles.File sraFile = submissionObjectFactory.createSubmissionActionAddFilesFile();
+          sraFile.setFilePath(fileName.getValue());
+          sraFile.setDataType(fileType.getValue());
+          sraAddFiles.getFile().add(sraFile);
+        }
+      }
 
-      // Submission/Action[2]/AddFiles/target_db
-      TypeSubmission.Action.AddFiles sraAddFiles = objectFactory.createTypeSubmissionActionAddFiles();
-      sraAction.setAddFiles(sraAddFiles);
-      sraAddFiles.setTargetDb("SRA");
-      // TODO Set attribute CDE ID?
-
-      // Submission/Action[1]/AddFiles/Attributes/Attribute - AIRR SRA attributes
+      // Attribute
       String value = ncbiSRA.getSampleName().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("sampleName");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -332,7 +345,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getLibraryId().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("libraryID");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -340,7 +353,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getLibraryTitle().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("libraryTitle");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -348,7 +361,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getLibraryStrategy().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("libraryStrategy");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -356,7 +369,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getLibrarySource().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("librarySource");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -364,7 +377,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getLibrarySelection().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("librarySelection");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -372,7 +385,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getLibraryLayout().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("libraryLayout");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -380,7 +393,7 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getPlatform().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("platform");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
@@ -388,80 +401,72 @@ public class AIRRTemplate2SRAConverter
 
       value = ncbiSRA.getInstrumentModel().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("instrumentModel");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
       }
 
-      //new added
       value = ncbiSRA.getDesignDescription().getValue();
       if (value != null) {
-        TypeFileAttribute fileAttribute = objectFactory.createTypeFileAttribute();
+        TypeFileAttribute fileAttribute = submissionObjectFactory.createTypeFileAttribute();
         fileAttribute.setName("designDescription");
         fileAttribute.setValue(value);
         sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(fileAttribute);
       }
 
-      // File name and type (multiple) new added
-      //RE-CHECK LOOPS VARIABLES
-      for (SRAOptionalAttribute sraOptionalAttribute : ncbiSRA.getSRAOptionalAttributes()) {
-          FileName fileName = sraOptionalAttribute.getFileName();
-          FileType fileType = sraOptionalAttribute.getFileType();
-          if (fileName != null && fileType != null) {
-            TypeSubmission.Action.AddFiles.File sraFile = objectFactory.createTypeSubmissionActionAddFilesFile();
-            sraFile.setPath(fileName.getValue());
-            sraFile.setDataType(fileType.getValue());
-            sraAddFiles.getFile().add(sraFile);
-          }
-      }
-
-      // BioProject Reference ID
-      TypeSPUID bioProjectSpuid = objectFactory.createTypeSPUID();
-      bioProjectSpuid.setSpuidNamespace("CEDAR");
+      // AttributeRefId: For BioProject Reference ID
+      TypeSPUID bioProjectSpuid = spCommonObjectFactory.createTypeSPUID();
+      bioProjectSpuid.setSpuidNamespace("CEDAR"); // XXX: Hard-coded
       bioProjectSpuid.setValue(ncbiBioProject.getBioProjectId().getValue());
 
-      TypeRefId bioProjectRefId = objectFactory.createTypeRefId();
+      TypeRefId bioProjectRefId = spCommonObjectFactory.createTypeRefId();
       bioProjectRefId.setSPUID(bioProjectSpuid);
 
-      TypeFileAttributeRefId bioProjectIdentifier = objectFactory.createTypeFileAttributeRefId();
+      TypeFileAttributeRefId bioProjectIdentifier = submissionObjectFactory.createTypeFileAttributeRefId();
       bioProjectIdentifier.setName("BioProject");
       bioProjectIdentifier.setRefId(bioProjectRefId);
+
       sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(bioProjectIdentifier);
 
-      // BioSample Reference ID
-      TypeSPUID bioSampleSpuid = objectFactory.createTypeSPUID();
+      // AttributeRefId: For BioSample Reference ID
+      TypeSPUID bioSampleSpuid = spCommonObjectFactory.createTypeSPUID();
       bioSampleSpuid.setSpuidNamespace("CEDAR");
       bioSampleSpuid.setValue(getBioSampleId(sraIndex));
 
-      TypeRefId bioSampleRefId = objectFactory.createTypeRefId();
+      TypeRefId bioSampleRefId = spCommonObjectFactory.createTypeRefId();
       bioSampleRefId.setSPUID(bioSampleSpuid);
 
-      TypeFileAttributeRefId bioSampleIdentifier = objectFactory.createTypeFileAttributeRefId();
+      TypeFileAttributeRefId bioSampleIdentifier = submissionObjectFactory.createTypeFileAttributeRefId();
       bioSampleIdentifier.setName("BioSample");
       bioSampleIdentifier.setRefId(bioSampleRefId);
+
       sraAddFiles.getAttributeOrMetaOrAttributeRefId().add(bioSampleIdentifier);
 
-      // SRA ID
-      TypeLocalId localSraId = objectFactory.createTypeLocalId();
+      // Identifier: For SRA
+      TypeLocalId localSraId = spCommonObjectFactory.createTypeLocalId();
       localSraId.setValue(createNewSraId());
 
-      TypeIdentifier sraIdentifier = objectFactory.createTypeIdentifier();
+      TypeIdentifier sraIdentifier = spCommonObjectFactory.createTypeIdentifier();
       sraIdentifier.setLocalId(localSraId);
 
       sraAddFiles.setIdentifier(sraIdentifier);
+
+      // Action
+      Submission.Action sraAction = submissionObjectFactory.createSubmissionAction();
+      sraAction.setAddFiles(sraAddFiles);
+
+      submission.getAction().add(sraAction);
 
       sraIndex++; // increment the index counter
     }
 
     StringWriter writer = new StringWriter();
 
-    JAXBElement<TypeSubmission> submissionRoot = objectFactory.createSubmission(xmlSubmission);
-    JAXBContext ctx = JAXBContext.newInstance(TypeSubmission.class);
+    JAXBContext ctx = JAXBContext.newInstance(Submission.class);
     Marshaller marshaller = ctx.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    //marshaller.marshal(submissionRoot, System.out);
-    marshaller.marshal(submissionRoot, writer);
+    marshaller.marshal(submission, writer);
 
     return writer.toString();
   }
