@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Submission>
+    <Description>
+        <Comment>Martin's first BioSample dummy submission</Comment>
+        <Hold release_date="2016-05-05-07:00"/>
+        <Organization type="XXX type" role="XXX role">
+            <Name>an institution</Name>
+            <Contact email="fred@bob.com">
+                <Name>
+                    <First>Fred</First>
+                    <Last>Fredster</Last>
+                    <Middle>F</Middle>
+                </Name>
+            </Contact>
+        </Organization>
+    </Description>
+    <Action>
+        <AddData target_db="BioSample">
+            <Data content_type="XML">
+                <XmlContent>
+                    <BioSample schema_version="2.0">
+                        <SampleId>
+                            <SPUID spuid_namespace="Institute Name">Submitter2332</SPUID>
+                        </SampleId>
+                        <Descriptor>
+                            <Title>BioSample Descriptor Title</Title>
+                            <Description/>
+                            <ExternalLink label="Virus">
+<URL>http://cnn.com</URL>
+                            </ExternalLink>
+                        </Descriptor>
+                        <Organism>
+                            <OrganismName>Hepatitis delta virus dFr2046</OrganismName>
+                        </Organism>
+                        <BioProject>
+                            <PrimaryId db="BioProject">PRJDB3527</PrimaryId>
+                        </BioProject>
+                        <Package>Pathogen.env.1.0</Package>
+                        <Attributes>
+                            <Attribute attribute_name="strain">MIDI_ISO_9154</Attribute>
+                            <Attribute attribute_name="collection_date">2009-05-08</Attribute>
+                            <Attribute attribute_name="collected_by">Dr. Bob</Attribute>
+                            <Attribute attribute_name="geo_loc_name">Tunisia:Matmata</Attribute>
+                            <Attribute attribute_name="isolation_source">Isolation source attribute value</Attribute>
+                            <Attribute attribute_name="lat_lon">33.54253 N 9.967341 E</Attribute>
+                            <Attribute attribute_name="isolate_name_alias">MIDI 2427</Attribute>
+                            <Attribute attribute_name="Host">homo sapien</Attribute>
+                            <Attribute attribute_name="Host Disease">Host disases attribute value</Attribute>
+                            <Attribute attribute_name="extra attribute name 1">extra attribute value 1</Attribute>
+                            <Attribute attribute_name="extra attribute name 2">extra attribute value 2</Attribute>
+                        </Attributes>
+                    </BioSample>
+                </XmlContent>
+            </Data>
+        </AddData>
+    </Action>
+</Submission>

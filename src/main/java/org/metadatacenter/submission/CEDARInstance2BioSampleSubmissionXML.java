@@ -1,20 +1,11 @@
-package org.metadatacenter.biosample.exporter;
+package org.metadatacenter.submission;
 
+import biosample.TypeAttribute;
+import biosample.TypeBioSample;
+import biosample.TypeBioSampleIdentifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import common.sp.TypeDescriptor;
-import common.sp.TypeOrganism;
-import common.sp.TypePrimaryId;
-import common.sp.TypeRefId;
-import generated.BioSampleValidate;
-import generated.TypeActionStatus;
-import generated.TypeAttribute;
-import generated.TypeBioSample;
-import generated.TypeBioSampleIdentifier;
-import generated.TypeContactInfo;
-import generated.TypeName;
-import generated.TypeOrganization;
-import generated.TypeStatus;
-import generated.TypeSubmission;
+import common.sp.*;
+import generated.*;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -22,6 +13,9 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.metadatacenter.submission.biosample.AMIA2016DemoBioSampleTemplate;
+import org.metadatacenter.submission.biosample.CEDARBioSampleValidationResponse;
+import org.metadatacenter.submission.biosample.OptionalAttribute;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -133,17 +127,18 @@ public class CEDARInstance2BioSampleSubmissionXML
     throws DatatypeConfigurationException, JAXBException
   {
     generated.ObjectFactory objectFactory = new generated.ObjectFactory();
+    biosample.ObjectFactory biosampleObjectFactory = new biosample.ObjectFactory();
     common.sp.ObjectFactory spCommonObjectFactory = new common.sp.ObjectFactory();
 
-    TypeSubmission xmlSubmission = objectFactory.createTypeSubmission();
+    Submission xmlSubmission = objectFactory.createSubmission();
 
     // Submission/Description/Comment
-    TypeSubmission.Description description = objectFactory.createTypeSubmissionDescription();
+    Submission.Description description = objectFactory.createSubmissionDescription();
     xmlSubmission.setDescription(description);
     description.setComment("Example CEDAR-generated BioSample submission using the Human.1.0 package");
 
     // Submission/Description/Hold/releaseDate
-    TypeSubmission.Description.Hold hold = objectFactory.createTypeSubmissionDescriptionHold();
+    Submission.Description.Hold hold = objectFactory.createSubmissionDescriptionHold();
     description.setHold(hold);
     hold.setReleaseDate(createXMLGregorianCalendar("2016-10-10"));
 
@@ -159,45 +154,45 @@ public class CEDARInstance2BioSampleSubmissionXML
     organizationName.setValue("CEDAR");
 
     // Submission/Description/Organization/ContactInfo/email
-    TypeContactInfo contactInfo = objectFactory.createTypeContactInfo();
+    TypeContactInfo contactInfo = spCommonObjectFactory.createTypeContactInfo();
     organization.getContact().add(contactInfo);
     contactInfo.setEmail("metadatacenter@gmail.com");
 
     // Submission/Description/Organization/ContactInfo/Name
-    TypeName name = objectFactory.createTypeName();
+    TypeName name =  spCommonObjectFactory.createTypeName();
     contactInfo.setName(name);
     name.setFirst("Mr.");
     name.setLast("CEDAR");
 
     // Submission/Action
-    TypeSubmission.Action action = objectFactory.createTypeSubmissionAction();
+    Submission.Action action = objectFactory.createSubmissionAction();
     xmlSubmission.getAction().add(action);
 
     // Submission/Action/AddData/target_db
-    TypeSubmission.Action.AddData addData = objectFactory.createTypeSubmissionActionAddData();
+    Submission.Action.AddData addData = objectFactory.createSubmissionActionAddData();
     action.setAddData(addData);
-    addData.setTargetDb("BioSample");
+    addData.setTargetDb(TypeTargetDb.BIO_SAMPLE);
 
     // Submission/Action/AddData/Data/content_type
-    TypeSubmission.Action.AddData.Data data = objectFactory.createTypeSubmissionActionAddDataData();
-    addData.getData().add(data);
+    Submission.Action.AddData.Data data = objectFactory.createSubmissionActionAddDataData();
+    addData.setData(data);
     data.setContentType("XML");
 
     // Submission/Action/AddData/Data/XMLContent
-    TypeSubmission.Action.AddData.Data.XmlContent xmlContent = objectFactory.createTypeInlineDataXmlContent();
+    Submission.Action.AddData.Data.XmlContent xmlContent = objectFactory.createTypeInlineDataXmlContent();
     data.setXmlContent(xmlContent);
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/schema_version
-    TypeBioSample bioSample = objectFactory.createTypeBioSample();
+    TypeBioSample bioSample = biosampleObjectFactory.createTypeBioSample();
     xmlContent.setBioSample(bioSample);
     bioSample.setSchemaVersion("2.0");
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/SampleID
-    TypeBioSampleIdentifier sampleID = objectFactory.createTypeBioSampleIdentifier();
+    TypeBioSampleIdentifier sampleID = biosampleObjectFactory.createTypeBioSampleIdentifier();
     bioSample.setSampleId(sampleID);
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/SampleID/SPUID
-    TypeBioSampleIdentifier.SPUID spuid = objectFactory.createTypeBioSampleIdentifierSPUID();
+    TypeBioSampleIdentifier.SPUID spuid = biosampleObjectFactory.createTypeBioSampleIdentifierSPUID();
     sampleID.getSPUID().add(spuid);
     spuid.setSpuidNamespace("CEDAR");
     spuid.setValue(amiaBioSampleSubmission.getSampleName().getValue());
@@ -226,50 +221,49 @@ public class CEDARInstance2BioSampleSubmissionXML
     bioSample.setPackage("Human.1.0");
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/Attributes
-    TypeBioSample.Attributes attributes = objectFactory.createTypeBioSampleAttributes();
+    TypeBioSample.Attributes attributes = biosampleObjectFactory.createTypeBioSampleAttributes();
     bioSample.setAttributes(attributes);
 
     // Submission/Action/AddData/Data/XMLContent/BioSample/Attributes/Attribute
 
     // Required attributes
-    TypeAttribute attribute = objectFactory.createTypeAttribute();
+    TypeAttribute attribute = biosampleObjectFactory.createTypeAttribute();
     attributes.getAttribute().add(attribute);
     attribute.setAttributeName("isolate");
     attribute.setValue(amiaBioSampleSubmission.getIsolate().getValue());
 
-    attribute = objectFactory.createTypeAttribute();
+    attribute = biosampleObjectFactory.createTypeAttribute();
     attributes.getAttribute().add(attribute);
     attribute.setAttributeName("age");
     attribute.setValue(amiaBioSampleSubmission.getAge().getValue());
 
-    attribute = objectFactory.createTypeAttribute();
+    attribute = biosampleObjectFactory.createTypeAttribute();
     attributes.getAttribute().add(attribute);
     attribute.setAttributeName("sex");
     attribute.setValue(amiaBioSampleSubmission.getSex().getValueLabel());
 
-    attribute = objectFactory.createTypeAttribute();
+    attribute = biosampleObjectFactory.createTypeAttribute();
     attributes.getAttribute().add(attribute);
     attribute.setAttributeName("biomaterial provider");
     attribute.setValue(amiaBioSampleSubmission.getBiomaterialProvider().getValue());
 
-    attribute = objectFactory.createTypeAttribute();
+    attribute = biosampleObjectFactory.createTypeAttribute();
     attributes.getAttribute().add(attribute);
     attribute.setAttributeName("tissue");
     attribute.setValue(amiaBioSampleSubmission.getTissue().getValueLabel());
 
     for (OptionalAttribute optionalAttribute : amiaBioSampleSubmission.getOptionalAttribute()) {
-      attribute = objectFactory.createTypeAttribute();
+      attribute = biosampleObjectFactory.createTypeAttribute();
       attributes.getAttribute().add(attribute);
       attribute.setAttributeName(optionalAttribute.getName().getValue());
       attribute.setValue(optionalAttribute.getValue().getValue());
     }
     StringWriter writer = new StringWriter();
-    JAXBElement<TypeSubmission> submissionRoot = objectFactory.createSubmission(xmlSubmission);
-    JAXBContext ctx = JAXBContext.newInstance(TypeSubmission.class);
+    JAXBContext ctx = JAXBContext.newInstance(Submission.class);
     Marshaller marshaller = ctx.createMarshaller();
     marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    marshaller.marshal(submissionRoot, System.out);
-    marshaller.marshal(submissionRoot, writer);
+    marshaller.marshal(xmlSubmission, System.out);
+    marshaller.marshal(xmlSubmission, writer);
 
     return writer.toString();
   }
