@@ -3,33 +3,18 @@
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                               http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-  <profiles>
+   <profiles>
     <profile>
-      <id>ci</id>
+      <id>bmir</id>
 
       <repositories>
-        <!-- Use BMIR's Nexus server for artifact resolution (in addition to default Maven Central) -->
         <repository>
           <id>bmir-nexus-snapshots</id>
-          <url>https://nexus.bmir.stanford.edu/content/repositories/snapshots</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
+          <url>https://nexus.bmir.stanford.edu/repository/snapshots</url>
         </repository>
         <repository>
           <id>bmir-nexus-releases</id>
-          <url>https://nexus.bmir.stanford.edu/content/repositories/releases</url>
-          <layout>default</layout>
-          <releases>
-            <enabled>true</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
+          <url>https://nexus.bmir.stanford.edu/repository/releases</url>
         </repository>
       </repositories>
 
@@ -37,7 +22,7 @@
   </profiles>
 
   <activeProfiles>
-    <activeProfile>ci</activeProfile>
+    <activeProfile>bmir</activeProfile>
   </activeProfiles>
 
   <servers>
