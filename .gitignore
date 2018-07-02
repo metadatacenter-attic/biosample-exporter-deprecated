@@ -21,3 +21,4 @@ target/*
 *.pyc
 pom.xml.versionsBackup
 release.properties
+pom.xml.releaseBackup
