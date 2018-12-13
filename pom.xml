@@ -4,12 +4,12 @@
   <parent>
     <groupId>org.metadatacenter</groupId>
     <artifactId>cedar-parent</artifactId>
-    <version>2.2.2</version>
+    <version>2.2.3</version>
   </parent>
   
   <groupId>org.metadatacenter</groupId>
   <artifactId>biosample-exporter</artifactId>
-  <version>2.2.2</version>
+  <version>2.2.3</version>
   <packaging>jar</packaging>
   <name>Project that generates BioSample XML submissions from CEDAR BioSample template instances</name>
 
@@ -17,7 +17,7 @@
     <connection>scm:git:git@github.com:metadatacenter/biosample-exporter.git</connection>
     <developerConnection>scm:git:git@github.com:metadatacenter/biosample-exporter.git</developerConnection>
     <url>https://github.com/metadatacenter/biosample-exporter</url>
-    <tag>release-2.2.2</tag>
+    <tag>release-2.2.3</tag>
   </scm>
 
   <properties>
